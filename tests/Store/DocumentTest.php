@@ -1,6 +1,6 @@
 <?php
 
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
 class DocumentTest extends \Jivoo\TestCase {
 
@@ -19,7 +19,7 @@ class DocumentTest extends \Jivoo\TestCase {
     $this->assertTrue(isset($a['a']));
     unset($a['a']);
     $this->assertFalse(isset($a['a']));
-    $this->assertInstanceOf('Jivoo\Core\Store\Document', $a['a']);
+    $this->assertInstanceOf('Jivoo\Store\Document', $a['a']);
 
     $a['a'] = null;
     $this->assertFalse(isset($a['a']));

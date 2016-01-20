@@ -3,10 +3,7 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core;
-
-use Jivoo\InvalidClassException;
-use Jivoo\Autoloader;
+namespace Jivoo;
 
 /**
  * Collection of useful utility functions.
@@ -96,8 +93,8 @@ class Utilities {
   
   /**
    * Get namespace part of a class name.
-   * @param string|object $className Class or object, e.g. 'Jivoo\Core\Utilities'.
-   * @return string Namespace, e.g. 'Jivoo\Core'.
+   * @param string|object $className Class or object, e.g. 'Jivoo\Utilities'.
+   * @return string Namespace, e.g. 'Jivoo'.
    */
   public static function getNamespace($className) {
     if (is_object($className))
@@ -109,7 +106,7 @@ class Utilities {
   
   /**
    * Get class name part of a qualified class name.
-   * @param string|object $className Class or object, e.g. 'Jivoo\Core\Utilities'.
+   * @param string|object $className Class or object, e.g. 'Jivoo\Utilities'.
    * @return string Class name, e.g. 'Utilities'.
    */
   public static function getClassName($className) {
@@ -133,9 +130,9 @@ class Utilities {
         $class = get_class($class);
       if ($class === $parent)
         return;
-      throw new InvalidClassException(tr(
-        'Class "%1" should extend "%2"', $class, $parent
-      ));
+      throw new InvalidArgumentException(
+        'Class "' . $class . '" should extend "' . $parent . '"'
+      );
     }
   } 
   

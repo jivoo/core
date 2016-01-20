@@ -3,10 +3,11 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\I18n;
+namespace Jivoo\I18n;
 
 use Jivoo\InvalidPropertyException;
 use Jivoo\InvalidArgumentException;
+use Jivoo\Assume;
 
 /**
  * A localization, e.g. translation strings and date formats.
@@ -58,22 +59,22 @@ class Locale {
    * and ISO 8601 dates.
    */
   protected static $defaultProperties = array(
-    'name' => 'English', // tr('[Locale::name]')
-    'localName' => 'English', // tr('[Locale::localName]')
-    'region' => '', // tr('[Locale::region]')
+    'name' => 'English', // I18n::get('[Locale::name]')
+    'localName' => 'English', // I18n::get('[Locale::localName]')
+    'region' => '', // I18n::get('[Locale::region]')
     
-    'shortDate' => 'Y-m-d', // tr('[Locale::shortDate]')
-    'mediumDate' => 'Y-m-d', // tr('[Locale::mediumDate]')
-    'longDate' => 'Y-m-d', // tr('[Locale::longDate]')
-    'shortTime' => 'H:i', // tr('[Locale::shortTime]')
-    'mediumTime' => 'H:i:s', // tr('[Locale::mediumTime]')
-    'longTime' => 'H:i:s T', // tr('[Locale::longTime]')
-    'shortDateTime' => 'Y-m-d H:i', // tr('[Locale::shortDateTime]')
-    'mediumDateTime' => 'Y-m-d H:i:s', // tr('[Locale::mediumDateTime]')
-    'longDateTime' => 'Y-m-d H:i:s T', // tr('[Locale::longDateTime]')
+    'shortDate' => 'Y-m-d', // I18n::get('[Locale::shortDate]')
+    'mediumDate' => 'Y-m-d', // I18n::get('[Locale::mediumDate]')
+    'longDate' => 'Y-m-d', // I18n::get('[Locale::longDate]')
+    'shortTime' => 'H:i', // I18n::get('[Locale::shortTime]')
+    'mediumTime' => 'H:i:s', // I18n::get('[Locale::mediumTime]')
+    'longTime' => 'H:i:s T', // I18n::get('[Locale::longTime]')
+    'shortDateTime' => 'Y-m-d H:i', // I18n::get('[Locale::shortDateTime]')
+    'mediumDateTime' => 'Y-m-d H:i:s', // I18n::get('[Locale::mediumDateTime]')
+    'longDateTime' => 'Y-m-d H:i:s T', // I18n::get('[Locale::longDateTime]')
     
-    'decimalPoint' => '.', // tr('[Locale::decimalPoint]')
-    'thousandsSep' => ',', // tr('[Locale::thousandsSep]')
+    'decimalPoint' => '.', // I18n::get('[Locale::decimalPoint]')
+    'thousandsSep' => ',', // I18n::get('[Locale::thousandsSep]')
   );
 
   /**
@@ -102,7 +103,7 @@ class Locale {
         if (isset(self::$defaultProperties[$property]))
           return self::$defaultProperties[$property];
     }
-    throw new InvalidPropertyException(tr('Invalid property: %1', $property));
+    throw new InvalidPropertyException('Invalid property: ' . $property);
   }
 
   /**
@@ -269,7 +270,7 @@ class Locale {
   public function nget($plural, $singular, $n) {
     if (is_array($n) or $n instanceof \Countable)
       $n = count($n);
-    assume(is_scalar($n));
+    Assume::that(is_scalar($n));
     $n = intval($n);
     if (isset($this->messages[$plural])) {
       $i = intval(eval($this->pluralExpr));
@@ -405,11 +406,9 @@ class Locale {
    */
   public static function readMo($file) {
     $f = file_get_contents($file);
-  
-    if ($f === false) {
-      //TODO: throw exception instead
-      trigger_error('Could not open file: ' . $file, E_USER_ERROR);
-      return null;
+
+    if (!is_string($f)) {
+      throw new LocaleException('Could not open file: ' . $file);
     }
   
     $magic = bin2hex(substr($f, 0, 4));
@@ -422,8 +421,7 @@ class Locale {
       $format = 'V';
     }
     else {
-      trigger_error('Not a valid MO file: incorrect magic number: ' . $magic, E_USER_ERROR);
-      return null;
+      throw new LocaleException('Not a valid MO file: incorrect magic number: ' . $magic);
     }
     $o = 4;
   

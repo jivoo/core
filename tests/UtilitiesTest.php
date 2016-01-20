@@ -1,6 +1,6 @@
 <?php
 
-namespace Jivoo\Core;
+namespace Jivoo;
 
 class UtilitiesTest extends \Jivoo\TestCase {
 
@@ -77,7 +77,7 @@ class UtilitiesTest extends \Jivoo\TestCase {
     $b = array('id' => 'b', 'priority' => 5);
     $c = array('id' => 'c', 'priority' => 7);
     $array = array($a, $b, $c);
-    usort($array, array('Jivoo\Core\Utilities', 'prioritySorter'));
+    usort($array, array('Jivoo\Utilities', 'prioritySorter'));
     $this->assertEquals(array($c, $b, $a), $array);
   }
 }

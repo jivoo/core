@@ -3,7 +3,7 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
 /**
  * Stores data in files. See subclasses for implementations of file formats.
@@ -96,11 +96,11 @@ abstract class FileStore implements Store {
   public function open($mutable = false) {
     $handle = @fopen($this->file, $mutable ? 'c+' : 'r');
     if (!$handle)
-      throw new AccessException(tr('Could not open file: %1', $this->file));
+      throw new AccessException('Could not open file: ' . $this->file);
     $noBlock = $this->blocking ? 0 : LOCK_NB;
     if (!flock($handle, ($mutable ? LOCK_EX : LOCK_SH) | $noBlock)) {
       fclose($handle);
-      throw new LockException(tr('Could not lock file: %1', $this->file));
+      throw new LockException('Could not lock file: ' . $this->file);
     }
     $this->handle = $handle;
     $this->mutable = $mutable;
@@ -147,7 +147,7 @@ abstract class FileStore implements Store {
     $this->data = $this->decode($content);
     if (!is_array($this->data)) {
       $this->data = null;
-      throw new AccessException(tr('Invalid file format: %1', $this->file));
+      throw new AccessException('Invalid file format: ' . $this->file);
     }
     return $this->data;
   }
@@ -159,8 +159,7 @@ abstract class FileStore implements Store {
     if (!isset($this->handle))
       return;
     if (!$this->mutable)
-      throw new AccessException(tr('Not mutable'));
-//     Logger::debug(tr('Write file: %1', $this->file));
+      throw new AccessException('Not mutable');
     $this->data = $data;
     ftruncate($this->handle, 0);
     rewind($this->handle);

@@ -1,5 +1,5 @@
 <?php
-namespace Jivoo\Core;
+namespace Jivoo;
 
 class UnicodeTest extends \Jivoo\TestCase {
   public function testIsUpper() {

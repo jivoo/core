@@ -3,11 +3,11 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Cache;
+namespace Jivoo\Cache;
 
-use Jivoo\Core\Store\Store;
+use Jivoo\Store\Store;
 use Psr\Cache\CacheItemInterface as CacheItem;
-use Jivoo\Core\Assume;
+use Jivoo\Assume;
 
 /**
  * A cache that stores values in an {@see Store}. 
@@ -114,7 +114,7 @@ class StorePool extends PoolBase {
   public function saveDeferred(CacheItem $item) {
     if (!isset($this->data))
       $this->read();
-    Assume::isInstanceOf($item, 'Jivoo\Core\Cache\MutableItem');
+    Assume::isInstanceOf($item, 'Jivoo\Cache\MutableItem');
     $expiration = $item->getExpiration();
     if (isset($expiration))
       $expiration = $expiration->getTimestamp();

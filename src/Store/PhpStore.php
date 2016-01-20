@@ -3,7 +3,7 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
 /**
  * Stores data as PHP files. 
@@ -27,7 +27,7 @@ class PhpStore extends FileStore {
    */
   protected function decode($content) {
     if (substr($content, 0, 5) !== '<?php')
-      throw new AccessException(tr('Invalid file format'));
+      throw new AccessException('Invalid file format');
     // Using eval() instead of include prevents opcode cachers from returning
     // old data.
     return eval(substr($content, 5));

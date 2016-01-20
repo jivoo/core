@@ -1,6 +1,6 @@
 <?php
 
-namespace Jivoo\Core;
+namespace Jivoo;
 
 class EventManagerTest extends \Jivoo\TestCase {
 
@@ -9,10 +9,10 @@ class EventManagerTest extends \Jivoo\TestCase {
   protected function _after() {}
   
   public function testAttachAndDetach() {
-    $subject1 = $this->getMockBuilder('Jivoo\Core\EventSubject')->getMock();
+    $subject1 = $this->getMockBuilder('Jivoo\EventSubject')->getMock();
     $subject1->method('getEvents')
       ->willReturn(array('someEvent'));
-    $subject2 = $this->getMockBuilder('Jivoo\Core\EventSubject')->getMock();
+    $subject2 = $this->getMockBuilder('Jivoo\EventSubject')->getMock();
     $subject2->method('getEvents')
       ->willReturn(array('someEvent'));
     $em1 = new EventManager($subject1);
@@ -27,24 +27,24 @@ class EventManagerTest extends \Jivoo\TestCase {
     $em2->detachHandler(get_class($subject1) . '.someEvent', $c);
     $this->assertTrue($em2->trigger(get_class($subject1) . '.someEvent'));
 
-    $this->assertThrows('Jivoo\Core\EventException', function() use($em1) {
+    $this->assertThrows('Jivoo\InvalidEventException', function() use($em1) {
       $em1->attachHandler('someOtherEvent', null);
     });
-    $this->assertThrows('Jivoo\Core\EventException', function() use($em1) {
+    $this->assertThrows('Jivoo\InvalidEventException', function() use($em1) {
       $em1->trigger('someOtherEvent');
     });
   }
   
   public function testListener() {
-    $subject1 = $this->getMockBuilder('Jivoo\Core\EventSubject')->getMock();
+    $subject1 = $this->getMockBuilder('Jivoo\EventSubject')->getMock();
     $subject1->method('getEvents')
       ->willReturn(array('someEvent'));
-    $subject2 = $this->getMockBuilder('Jivoo\Core\EventSubject')->getMock();
+    $subject2 = $this->getMockBuilder('Jivoo\EventSubject')->getMock();
     $subject2->method('getEvents')
       ->willReturn(array('someEvent'));
     $em1 = new EventManager($subject1);
     $em2 = new EventManager($subject2, $em1);
-    $l = $this->getMockBuilder('Jivoo\Core\EventListener')
+    $l = $this->getMockBuilder('Jivoo\EventListener')
       ->setMethods(array('getEventHandlers', 'someEvent'))
       ->getMock();
     $l->method('getEventHandlers')

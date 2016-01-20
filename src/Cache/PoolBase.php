@@ -3,9 +3,10 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Cache;
+namespace Jivoo\Cache;
 
 use Psr\Cache\CacheItemInterface as CacheItem;
+use Jivoo\Assume;
 
 abstract class PoolBase implements Pool {
   /**
@@ -160,7 +161,7 @@ abstract class PoolBase implements Pool {
     }
     if ($expiration instanceof \DateTime)
       return $expiration;
-    assume($expiration instanceof \DateInterval);
+    Assume::that($expiration instanceof \DateInterval);
     $d = new \DateTime();
     return $d->add($expiration);
   }

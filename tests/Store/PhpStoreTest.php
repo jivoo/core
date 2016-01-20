@@ -1,6 +1,6 @@
 <?php
 
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
 class PhpStoreTest extends \Jivoo\TestCase {
 
@@ -32,7 +32,7 @@ class PhpStoreTest extends \Jivoo\TestCase {
     file_put_contents($this->file, '<?php return null;');
     $this->store->open(false);
     $store = $this->store;
-    $this->assertThrows('Jivoo\Core\Store\AccessException', function() use($store) {
+    $this->assertThrows('Jivoo\Store\AccessException', function() use($store) {
       $store->read();
     });
     $this->store->close();
@@ -72,15 +72,15 @@ class PhpStoreTest extends \Jivoo\TestCase {
     
     $store2->disableBlocking();
     $this->store->open(true);
-    $this->assertThrows('Jivoo\Core\Store\LockException', function() use($store2) {
+    $this->assertThrows('Jivoo\Store\LockException', function() use($store2) {
       $store2->open(true);
     });
-    $this->assertThrows('Jivoo\Core\Store\LockException', function() use($store2) {
+    $this->assertThrows('Jivoo\Store\LockException', function() use($store2) {
       $store2->open(false);
     });
     $this->store->close();
     $this->store->open(false);
-    $this->assertThrows('Jivoo\Core\Store\LockException', function() use($store2) {
+    $this->assertThrows('Jivoo\Store\LockException', function() use($store2) {
       $store2->open(true);
     });
     $store2->open(false);

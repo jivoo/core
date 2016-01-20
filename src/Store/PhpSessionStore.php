@@ -3,7 +3,7 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
 /**
  * Stores data in PHP sessions.
@@ -58,7 +58,7 @@ class PhpSessionStore implements Store {
     if (isset($this->name))
       session_name($this->name);
     if (!session_start())
-      throw new AccessException(tr('Could not start PHP session'));
+      throw new AccessException('Could not start PHP session');
     $this->open = true;
     $this->mutable = $mutable;
     if (isset($this->key)) {
@@ -98,7 +98,7 @@ class PhpSessionStore implements Store {
     if (!$this->open)
       return;
     if (!$this->mutable)
-      throw new AccessException(tr('Not mutable'));
+      throw new AccessException('Not mutable');
     $this->data = $data;
     if (isset($this->key))
       $_SESSION[$this->key] = $this->data;

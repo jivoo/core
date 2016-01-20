@@ -28,14 +28,14 @@ class AutoloaderTest extends TestCase {
   
   public function testLoad() {
     $autoloader = new Autoloader();
-    $autoloader->addPath('Foo', 'src/Models');
-    $autoloader->addPath('Foo', 'src/Helpers');
-    $autoloader->addPath('Foo\Selection', 'src/Models/Selection');
+    $autoloader->addPath('Foo', 'src/Cache');
+    $autoloader->addPath('Foo', 'src/I18n');
+//     $autoloader->addPath('Foo\Selection', 'src/Models/Selection');
     $this->assertFalse($autoloader->load('Bar'));
     $this->assertFalse($autoloader->load('Foo\Bar'));
-    $this->assertTrue($autoloader->load('Foo\Helper'));
-    $this->assertTrue($autoloader->load('Foo\Model'));
-    $this->assertTrue($autoloader->load('Foo\Selection\SelectionBuilder'));
+    $this->assertTrue($autoloader->load('Foo\I18n'));
+    $this->assertTrue($autoloader->load('Foo\Cache'));
+//     $this->assertTrue($autoloader->load('Foo\Selection\SelectionBuilder'));
     
     // TODO: mock loadFrom and test paths etc.
   }

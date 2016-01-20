@@ -3,9 +3,9 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Log;
+namespace Jivoo\Log;
 
-use Jivoo\Core\Utilities;
+use Jivoo\Utilities;
 use Psr\Log\LogLevel;
 
 /**
@@ -28,12 +28,12 @@ class FileHandler extends StreamHandler {
     if (!file_exists($filePath)) {
       $dir = dirname($filePath);
       if (!Utilities::dirExists($dir)) {
-        trigger_error(tr('Could not create log directory: %1', $dir), E_USER_WARNING);
+        trigger_error('Could not create log directory: ' . $dir, E_USER_WARNING);
         $this->stream = false;
         return;
       }
       if (!touch($filePath)) {
-        trigger_error(tr('Could not create log file: %1', $filePath), E_USER_WARNING);
+        trigger_error('Could not create log file: ' . $filePath, E_USER_WARNING);
         $this->stream = false;
         return;
       }
@@ -52,7 +52,7 @@ class FileHandler extends StreamHandler {
       $this->stream = fopen($this->file, 'a');
       if (!$this->stream) {
         $this->stream = false;
-        trigger_error(tr('Could not open file: %1', $this->file), E_USER_WARNING);
+        trigger_error('Could not open file: ' . $this->file, E_USER_WARNING);
         return;
       }
     }

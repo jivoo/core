@@ -1,5 +1,5 @@
 <?php
-namespace Jivoo\Core\Parse;
+namespace Jivoo\Parse;
 
 use Jivoo\TestCase;
 
@@ -11,7 +11,7 @@ class ParseInputTest extends TestCase {
     $this->assertNull($input->peek(10));
     $this->assertNull($input->pop());
     $this->assertFalse($input->accept('a'));
-    $this->assertThrows('Jivoo\Core\Parse\ParseException', function() use($input) {
+    $this->assertThrows('Jivoo\Parse\ParseException', function() use($input) {
       $input->expect('a');
     });
   }
@@ -42,7 +42,7 @@ class ParseInputTest extends TestCase {
     $this->assertTrue($input->acceptToken('int', $token));
     $this->assertEquals(5, $token[1]);
     $this->assertFalse($input->acceptToken('int'));
-    $this->assertThrows('Jivoo\Core\Parse\ParseException', function() use($input) {
+    $this->assertThrows('Jivoo\Parse\ParseException', function() use($input) {
       $input->expectToken('int');
     });
     $token = $input->expectToken('op');

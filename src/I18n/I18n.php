@@ -3,10 +3,10 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\I18n;
+namespace Jivoo\I18n;
 
-use Jivoo\Core\Unicode;
-use Jivoo\Core\Cache\Cache;
+use Jivoo\Unicode;
+use Jivoo\Cache\Cache;
 use Psr\Cache\CacheItemPoolInterface as CacheItemPool;
 
 /**
@@ -40,7 +40,7 @@ class I18n {
       self::$language = $language;
     }
     else {
-      trigger_error(tr('Invalid language tag: %1', $language), E_USER_WARNING);
+      trigger_error('Invalid language tag: ' . $language, E_USER_WARNING);
     }
   }
 
@@ -142,7 +142,7 @@ class I18n {
 
   /**
    * Translate a string.
-   * @param string $message Message in english.
+   * @param string $message Message in English.
    * @param mixed $vars,... Values for placeholders starting from %1.
    * @return string Translated string.
    */
@@ -159,7 +159,7 @@ class I18n {
    * $l->nget('This post has %1 comments', 'This post has %1 comment', $numcomments);
    * </code>
    * 
-   * @param string $plural Message in english (plural).
+   * @param string $plural Message in English (plural).
    * @param string $singular Singular version of message in english.
    * @param mixed $vars,... Values for placholders starting from %1, the first one (%1) is the
    * numeral to test.
@@ -236,19 +236,19 @@ class I18n {
     $cYear = date('Y');
     $date = date('Y-m-d', $timestamp);
     if (date('Y-m-d') == $date) {
-      return tr('Today %1', self::formatTime($timestamp));
+      return I18n::get('Today %1', self::formatTime($timestamp));
     }
     else if (date('Y-m-d', strtotime('yesterday')) == $date) {
-      return tr('Yesterday %1', self::formatTime($timestamp));
+      return I18n::get('Yesterday %1', self::formatTime($timestamp));
     }
     else if (date('Y-m-d', strtotime('tomorrow')) == $date) {
-      return tr('Tomorrow %1', self::formatTime($timestamp));
+      return I18n::get('Tomorrow %1', self::formatTime($timestamp));
     }
     else if ($cYear == date('Y', $timestamp)) {
-      return self::date(tr('F j'), $timestamp);
+      return self::date(I18n::get('F j'), $timestamp);
     }
     else {
-      return self::date(tr('F Y'), $timestamp);
+      return self::date(I18n::get('F Y'), $timestamp);
     }
   }
 
@@ -269,46 +269,46 @@ class I18n {
       $timestamp = time();
     $month = date('n', $timestamp);
     if ($month == 1)
-      $F = tr('January');
+      $F = I18n::get('January');
     else if ($month == 2)
-      $F = tr('February');
+      $F = I18n::get('February');
     else if ($month == 3)
-      $F = tr('March');
+      $F = I18n::get('March');
     else if ($month == 4)
-      $F = tr('April');
+      $F = I18n::get('April');
     else if ($month == 5)
-      $F = tr('May');
+      $F = I18n::get('May');
     else if ($month == 6)
-      $F = tr('June');
+      $F = I18n::get('June');
     else if ($month == 7)
-      $F = tr('July');
+      $F = I18n::get('July');
     else if ($month == 8)
-      $F = tr('August');
+      $F = I18n::get('August');
     else if ($month == 9)
-      $F = tr('September');
+      $F = I18n::get('September');
     else if ($month == 10)
-      $F = tr('October');
+      $F = I18n::get('October');
     else if ($month == 11)
-      $F = tr('November');
+      $F = I18n::get('November');
     else if ($month == 12)
-      $F = tr('December');
+      $F = I18n::get('December');
     $M = Unicode::slice($F, 0, 3);
 
     $weekday = date('w', $timestamp);
     if ($weekday == 0)
-      $l = tr('Sunday');
+      $l = I18n::get('Sunday');
     else if ($weekday == 1)
-      $l = tr('Monday');
+      $l = I18n::get('Monday');
     else if ($weekday == 2)
-      $l = tr('Tuesday');
+      $l = I18n::get('Tuesday');
     else if ($weekday == 3)
-      $l = tr('Wednesday');
+      $l = I18n::get('Wednesday');
     else if ($weekday == 4)
-      $l = tr('Thursday');
+      $l = I18n::get('Thursday');
     else if ($weekday == 5)
-      $l = tr('Friday');
+      $l = I18n::get('Friday');
     else if ($weekday == 6)
-      $l = tr('Saturday');
+      $l = I18n::get('Saturday');
     $D = Unicode::slice($l, 0, 3);
     $date = date($format, $timestamp);
     $date = str_replace(date('F', $timestamp), $F, $date);

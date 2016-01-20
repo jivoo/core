@@ -3,7 +3,7 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
 /**
  * A session is a document that ensures durability of changes. Unlike
@@ -33,7 +33,7 @@ class Session extends Document {
       $this->data = $this->store->read();
     }
     catch (AccessException $e) {
-      throw new AccessException(tr('Could not open session: %1', $e->getMessage()), null, $e);
+      throw new AccessException('Could not open session: ' . $e->getMessage(), null, $e);
     }
   }
   
@@ -69,7 +69,7 @@ class Session extends Document {
    */
   protected function update() {
     if (!isset($this->store))
-      throw new NotOpenException(tr('Session already closed.'));
+      throw new NotOpenException('Session already closed.');
     if (!$this->updated)
       return;
     $this->store->write($this->data);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
 class StateMapTest extends \Jivoo\TestCase {
 
@@ -12,12 +12,12 @@ class StateMapTest extends \Jivoo\TestCase {
   }
 
   protected function tearDown() {
-    rmdir($this->dir);
+//     rmdir($this->dir);
   }
   
   public function testRead() {
     $state = $this->state;
-    $this->assertThrows('Jivoo\Core\Store\NotOpenException', function() use($state) {
+    $this->assertThrows('Jivoo\Store\NotOpenException', function() use($state) {
       $state['test'];
     });
     

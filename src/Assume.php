@@ -3,7 +3,7 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core;
+namespace Jivoo;
 
 use Jivoo\InvalidArgumentException;
 use Jivoo\InvalidClassException;
@@ -15,6 +15,31 @@ use Jivoo\InvalidTypeException;
  */
 class Assume {
   private function __construct() {}
+  
+  /**
+   * Precondition function that can be used to add additional constraints to
+   * function parameters.
+   * @param bool $condition Condition.
+   * @param string $message Failure message.
+   * @throws InvalidArgumentException If condition is false.
+   */
+  public static function that($condition, $message = null) {
+    if ($condition === true) {
+      return;
+    }
+    if (isset($message))
+      throw new Jivoo\InvalidArgumentException($message);
+      $bt = debug_backtrace();
+      $call = $bt[0];
+      $lines = file($call['file']);
+      preg_match(
+        '/' . $call['function'] . '\((.+)\)/',
+        $lines[$call['line'] - 1],
+        $matches
+        );
+      throw new Jivoo\InvalidArgumentException('Assumption failed: ' . $matches[1]);
+  }
+  
 
   /**
    * Check whether or not $class extends $parent, and throw an exception if

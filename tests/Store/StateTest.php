@@ -1,6 +1,6 @@
 <?php
 
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
 class StateTest extends \Jivoo\TestCase {
   
@@ -18,7 +18,7 @@ class StateTest extends \Jivoo\TestCase {
   
   public function testRead() {
     $store = $this->store;
-    $this->assertThrows('Jivoo\Core\Store\AccessException', function() use($store) {
+    $this->assertThrows('Jivoo\Store\AccessException', function() use($store) {
       $state = new State($store, false);
     });
     $this->store->touch();
@@ -35,7 +35,7 @@ class StateTest extends \Jivoo\TestCase {
     $state->close();
 
     $this->assertFalse($state->isOpen());
-    $this->assertThrows('Jivoo\Core\Store\NotOpenException', function() use($state) {
+    $this->assertThrows('Jivoo\Store\NotOpenException', function() use($state) {
       $state->close();
     });
   }

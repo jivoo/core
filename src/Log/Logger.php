@@ -3,7 +3,7 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Log;
+namespace Jivoo\Log;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -165,7 +165,7 @@ class Logger implements LoggerInterface {
    */
   public function log($level, $message, array $context = array()) {
     if (!isset($this->handlers[$level]))
-      throw new LogException(tr('Undefined log level: %1', $level));
+      throw new InvalidArgumentException('Undefined log level: ' . $level);
     $record = array(
       'level' => $level,
       'message' => (string) $message,

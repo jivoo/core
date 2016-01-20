@@ -13,10 +13,10 @@
     }
   ],
   "autoload": {
-    "psr-4": {"Jivoo\\Core\\": "src/"}
+    "psr-4": {"Jivoo\\": "src/"}
   },
   "autoload-dev": {
-    "psr-4": {"Jivoo\\Core\\": "tests/"}
+    "psr-4": {"Jivoo\\": "tests/"}
   },
   "require": {
     "php": ">=5.4.0",

@@ -1,5 +1,5 @@
 <?php
-namespace Jivoo\Core;
+namespace Jivoo;
 
 class BinaryTest extends \Jivoo\TestCase {
  

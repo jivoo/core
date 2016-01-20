@@ -1,5 +1,5 @@
 <?php
-namespace Jivoo\Core\Parse;
+namespace Jivoo\Parse;
 
 use Jivoo\TestCase;
 
@@ -10,7 +10,7 @@ class RegexLexerTest extends TestCase {
     $this->assertEmpty($lex(''));
     $this->assertEmpty($lex(" \t\n"));
 
-    $this->assertThrows('Jivoo\Core\Parse\ParseException', function() use($lex) {
+    $this->assertThrows('Jivoo\Parse\ParseException', function() use($lex) {
       $lex('a');
     });
   }

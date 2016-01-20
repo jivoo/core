@@ -3,7 +3,7 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core;
+namespace Jivoo;
 
 /**
  * Collection of events and handlers.
@@ -56,7 +56,7 @@ class EventManager {
   public function attachHandler($name, $callback, $once = false) {
     if (!isset($this->events[$name])) {
       if (strpos($name, '.') === false)
-        throw new EventException(tr('Event subject "%1" does not have event "%2"', $this->subjectClass, $name));
+        throw new InvalidEventException('Event subject "' . $this->subjectClass . '" does not have event "' . $name . '"');
       $this->events[$name] = array();
     }
     if ($once) {
@@ -145,7 +145,7 @@ class EventManager {
       }
     }
     else if (strpos($name, '.') === false) {
-      throw new EventException(tr('Event subject "%1" does not have event "%2"', $this->subjectClass, $name));
+      throw new InvalidEventException('Event subject "' . $this->subjectClass . '" does not have event "' . $name . '"');
     }
     return true;
   }

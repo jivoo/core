@@ -3,10 +3,11 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
-use Jivoo\Core\MapIterator;
+use Jivoo\MapIterator;
 use Jivoo\InvalidPropertyException;
+use Jivoo\Assume;
 
 /**
  * Representation of semi-structured data such as a configuration ({@see Config})
@@ -74,7 +75,7 @@ class Document implements \ArrayAccess, \IteratorAggregate {
       case 'root':
         return $this->$property;
     }
-    throw new InvalidPropertyException(tr('Invalid property: %1', $property));
+    throw new InvalidPropertyException('Invalid property: ' . $property);
   }
   
   /**
@@ -86,19 +87,19 @@ class Document implements \ArrayAccess, \IteratorAggregate {
   public function __set($property, $value) {
     switch ($property) {
       case 'defaults':
-        assume(is_array($value));
+        Assume::isArray($value);
         $array = $value;
         foreach ($array as $key => $value)
           $this->setDefault($key, $value);
         return;
       case 'override':
-        assume(is_array($value));
+        Assume::isArray($value);
         $array = $value;
         foreach ($array as $key => $value)
           $this->setRecursive($key, $value);
         return;
     }
-    throw new InvalidPropertyException(tr('Invalid property: %1', $property));
+    throw new InvalidPropertyException('Invalid property: ' . $property);
   }
   
   /**
@@ -171,7 +172,7 @@ class Document implements \ArrayAccess, \IteratorAggregate {
    * @param mixed $value The value to associate with the key.
    */
   public function set($key, $value) {
-    assume(is_scalar($key));
+    Assume::that(is_scalar($key));
     if (isset($this->emptySubset))
       $this->createTrueSubset();
     $oldValue = null;

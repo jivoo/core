@@ -1,6 +1,6 @@
 <?php
 
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
 class ConfigTest extends \Jivoo\TestCase {
 

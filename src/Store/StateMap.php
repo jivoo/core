@@ -3,9 +3,9 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Store;
+namespace Jivoo\Store;
 
-use Jivoo\Core\Utilities;
+use Jivoo\Utilities;
 use Jivoo\InvalidMethodException;
 
 /**
@@ -60,9 +60,8 @@ class StateMap implements \ArrayAccess {
     if (isset($this->states[$key]) and $this->states[$key]->isOpen())
       return $this->states[$key];
     if (!isset($this->files[$key]) and !$this->touch($key))
-      throw new AccessException(tr('State file missing or inaccessible: %1', $key));
+      throw new AccessException('State file missing or inaccessible: ' . $key);
     $this->states[$key] = new State($this->files[$key], false);
-//     Logger::debug(tr('Open state (read): %1', $key));
     return $this->states[$key];
   }
 
@@ -81,7 +80,6 @@ class StateMap implements \ArrayAccess {
     if (!isset($this->files[$key]))
       $this->touch($key);
     $this->states[$key] = new State($this->files[$key], true);
-//     Logger::debug(tr('Open state (write): %1', $key));
     return $this->states[$key];
   }
   
@@ -146,7 +144,7 @@ class StateMap implements \ArrayAccess {
   public function offsetGet($key) {
     if (isset($this->states[$key]) and $this->states[$key]->isOpen())
       return $this->states[$key];
-    throw new NotOpenException(tr('State not open: %1', $key));
+    throw new NotOpenException('State not open: ' . $key);
   }
   
   /**
@@ -155,7 +153,7 @@ class StateMap implements \ArrayAccess {
    * @param mixed $value Value.
    */
   public function offsetSet($key, $value) {
-    throw new InvalidMethodException(tr('Method not applicable.'));
+    throw new InvalidMethodException('Method not applicable.');
   }
   
   /**

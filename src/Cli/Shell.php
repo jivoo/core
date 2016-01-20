@@ -3,14 +3,14 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Cli;
+namespace Jivoo\Cli;
 
-use Jivoo\Core\App;
-use Jivoo\Core\Log\ErrorHandler;
-use Jivoo\Core\Log\FileHandler;
+use Jivoo\Log\ErrorHandler;
+use Jivoo\Log\FileHandler;
 use Psr\Log\LogLevel;
-use Jivoo\Core\Log\StreamHandler;
-use Jivoo\Core\Log\ShellHandler;
+use Jivoo\Log\StreamHandler;
+use Jivoo\Log\ShellHandler;
+use Jivoo\I18n\I18n;
 
 /**
  * Command-line interface for Jivoo applications.
@@ -31,14 +31,14 @@ class Shell extends CommandBase {
    */
   private $options = array();
   
-  public function __construct(App $app) {
-    parent::__construct($app);
-    $this->addCommand('version', array($this, 'showVersion'), tr('Show the application and framework version'));
-    $this->addCommand('help', array($this, 'showHelp'), tr('Show this help'));
-    $this->addCommand('trace', array($this, 'showTrace'), tr('Show stack trace for most recent exception'));
-    $this->addCommand('exit', array($this, 'stop'), tr('Ends the shell session'));
+  private $prompt;
+  
+  public function __construct($prompt = '>') {
+    $this->prompt = $prompt;
+    $this->addCommand('help', array($this, 'showHelp'), I18n::get('Show this help'));
+    $this->addCommand('trace', array($this, 'showTrace'), I18n::get('Show stack trace for most recent exception'));
+    $this->addCommand('exit', array($this, 'stop'), I18n::get('Ends the shell session'));
     $this->addOption('help', 'h');
-    $this->addOption('version', 'v');
     $this->addOption('trace', 't');
     $this->addOption('debug', 'd');
   }
@@ -57,7 +57,7 @@ class Shell extends CommandBase {
         if ($o == '')
           continue;
         if (!isset($this->availableOptions[$o])) {
-          $this->put(tr('Unknown option: %1', '--' . $o));
+          $this->put(I18n::get('Unknown option: %1', '--' . $o));
           $this->stop();
         }
         if ($this->availableOptions[$o])
@@ -70,7 +70,7 @@ class Shell extends CommandBase {
         while ($options != '') {
           $o = $options[0];
           if (!isset($this->shortOptions[$o])) {
-            $this->put(tr('Unknown option: %1', '-' . $o));
+            $this->put(I18n::get('Unknown option: %1', '-' . $o));
             $this->stop();
           }
           $options = substr($options, 1);
@@ -99,10 +99,6 @@ class Shell extends CommandBase {
       $this->showHelp();
       exit;
     }
-    if (isset($this->options['version'])) {
-      $this->showVersion();
-      exit;
-    }
     if (count($command)) {
       $this->evalCommand($command);
       $this->stop();
@@ -118,7 +114,7 @@ class Shell extends CommandBase {
     if ($command == 'exit')
       $this->stop();
     if (!isset($this->commands[$command])) {
-      $this->error(tr('Unknown command: %1', $command));
+      $this->error(I18n::get('Unknown command: %1', $command));
       $best = null;
       $bestDist = PHP_INT_MAX;
       foreach ($this->commands as $name => $c) {
@@ -129,7 +125,7 @@ class Shell extends CommandBase {
         }
       }
       if ($bestDist < 5)
-        $this->put(tr('Did you mean "%1"?', $best));
+        $this->put(I18n::get('Did you mean "%1"?', $best));
       return;
     }
     try {
@@ -200,11 +196,6 @@ class Shell extends CommandBase {
     fflush($stream);
   }
   
-  public function showVersion() {
-    $this->put($this->app->name . ' ' . $this->app->version);
-    $this->put('Jivoo ' . \Jivoo\VERSION);
-  }
-  
   public function showHelp() {
     $this->put('usage: ' . $this->name . ' [options] [command] [args...]');
     $this->help();
@@ -213,13 +204,13 @@ class Shell extends CommandBase {
   public function handleException(\Exception $exception) {
     $this->lastError = $exception;
     if (isset($this->options['trace'])) {
-      $this->error(tr('Uncaught exception'));
+      $this->error(I18n::get('Uncaught exception'));
       self::dumpException($exception);
     }
     else {
-      $this->error(tr('Uncaught %1: %2', get_class($exception), $exception->getMessage()));
+      $this->error(I18n::get('Uncaught %1: %2', get_class($exception), $exception->getMessage()));
       $this->put();
-      $this->put(tr('Call "trace" or run script with the "--trace" option to show stack trace'));
+      $this->put(I18n::get('Call "trace" or run script with the "--trace" option to show stack trace'));
     }
   }
   
@@ -308,14 +299,14 @@ class Shell extends CommandBase {
    * @param int $status Status code, 0 for success.
    */
   public function stop($status = 0) {
-    $this->app->stop($status);
+    exit($status);
   }
   
   public function run() {
     $level = LogLevel::INFO;
     if (isset($this->options['debug']))
       $level = LogLevel::DEBUG;
-    $prompt = $this->app->name . '> ';
+    $prompt = $this->prompt;
     $this->logger->addHandler(new ShellHandler($this, $level));
     while (ob_get_level() > 0)
       ob_end_clean();

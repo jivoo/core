@@ -1,6 +1,6 @@
 <?php
 
-namespace Jivoo\Core\Cache;
+namespace Jivoo\Cache;
 
 abstract class PoolTest extends \Jivoo\TestCase {
   protected function _before() {}
@@ -13,7 +13,7 @@ abstract class PoolTest extends \Jivoo\TestCase {
   abstract protected function getPool();
   
   public function testImplements() {
-    $this->assertInstanceOf('Jivoo\Core\Cache\Pool', $this->getPool());
+    $this->assertInstanceOf('Jivoo\Cache\Pool', $this->getPool());
   }
   
   protected function assertMiss(Pool $pool, $key) {

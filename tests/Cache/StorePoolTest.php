@@ -1,7 +1,7 @@
 <?php
-namespace Jivoo\Core\Cache;
+namespace Jivoo\Cache;
 
-use Jivoo\Core\Store\JsonStore;
+use Jivoo\Store\JsonStore;
 
 class StorePoolTest extends PoolTest {
   

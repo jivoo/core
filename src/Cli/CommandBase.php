@@ -3,14 +3,13 @@
 // Copyright (c) 2015 Niels Sonnich Poulsen (http://nielssp.dk)
 // Licensed under the MIT license.
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
-namespace Jivoo\Core\Cli;
+namespace Jivoo\Cli;
 
-use Jivoo\Core\Module;
-
+use Jivoo\I18n\I18n;
 /**
  * A command with subcommands.
  */
-abstract class CommandBase extends Module implements Command {
+abstract class CommandBase implements Command {
   
   protected $commands = array();
   
@@ -69,7 +68,7 @@ abstract class CommandBase extends Module implements Command {
     if ($command == 'exit')
       $this->stop();
     if (!isset($this->commands[$command])) {
-      $this->m->shell->put(tr('Unknown command: %1', $command));
+      $this->m->shell->put(I18n::get('Unknown command: %1', $command));
       return;
     }
     call_user_func($this->commands[$command], $parameters, $this->options);
@@ -127,7 +126,7 @@ abstract class CommandBase extends Module implements Command {
     if (isset($description))
       $this->m->shell->put($description);
     if (count($this->availableOptions)) {
-      $this->m->shell->put(tr('Options:'));
+      $this->m->shell->put(I18n::get('Options:'));
       $options = $this->availableOptions;
       ksort($options);
       foreach ($options as $option => $hasParam) {
@@ -135,7 +134,7 @@ abstract class CommandBase extends Module implements Command {
       }
     }
     if (count($this->commands)) {
-      $this->m->shell->put(tr('Commands:'));
+      $this->m->shell->put(I18n::get('Commands:'));
       $commands = $this->commands;
       ksort($commands);
       foreach ($commands as $name => $command) {
@@ -149,7 +148,7 @@ abstract class CommandBase extends Module implements Command {
       return $this->onEmpty();
     $command = array_shift($parameters);
     if (!isset($this->commands[$command])) {
-      $this->m->shell->put(tr('Unknown command: %1', $command));
+      $this->m->shell->put(I18n::get('Unknown command: %1', $command));
       return;
     }
     call_user_func($this->commands[$command], $parameters, $options);
