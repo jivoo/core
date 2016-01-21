@@ -2,67 +2,72 @@
 
 namespace Jivoo\Store;
 
-class StateTest extends \Jivoo\TestCase {
+class StateTest extends \Jivoo\TestCase
+{
   
-  private $file;
-  private $store;
+    private $file;
+    private $store;
   
-  protected function setUp() {
-    $this->file = 'tests/_data/state.php';
-    $this->store = new PhpStore($this->file);
-  }
+    protected function setUp()
+    {
+        $this->file = 'tests/_data/state.php';
+        $this->store = new PhpStore($this->file);
+    }
   
-  protected function tearDown() {
-    unlink($this->file);
-  }
+    protected function tearDown()
+    {
+        unlink($this->file);
+    }
   
-  public function testRead() {
-    $store = $this->store;
-    $this->assertThrows('Jivoo\Store\AccessException', function() use($store) {
-      $state = new State($store, false);
-    });
-    $this->store->touch();
-    $state = new State($this->store, false);
-    $this->assertEquals(array(), $state->toArray());
+    public function testRead()
+    {
+        $store = $this->store;
+        $this->assertThrows('Jivoo\Store\AccessException', function () use ($store) {
+            $state = new State($store, false);
+        });
+        $this->store->touch();
+        $state = new State($this->store, false);
+        $this->assertEquals(array(), $state->toArray());
 
-    $state2 = new State($this->store, false);
-    $this->assertEquals(array(), $state2->toArray());
-    $state2->close();
+        $state2 = new State($this->store, false);
+        $this->assertEquals(array(), $state2->toArray());
+        $state2->close();
     
-    $this->assertTrue($state->isOpen());
-    $this->assertFalse($state->isMutable());
+        $this->assertTrue($state->isOpen());
+        $this->assertFalse($state->isMutable());
     
-    $state->close();
+        $state->close();
 
-    $this->assertFalse($state->isOpen());
-    $this->assertThrows('Jivoo\Store\NotOpenException', function() use($state) {
-      $state->close();
-    });
-  }
+        $this->assertFalse($state->isOpen());
+        $this->assertThrows('Jivoo\Store\NotOpenException', function () use ($state) {
+            $state->close();
+        });
+    }
   
-  public function testWrite() {
-    $this->store->touch();
-    $state = new State($this->store, true);
-    $this->assertTrue($state->isOpen());
-    $this->assertTrue($state->isMutable());
+    public function testWrite()
+    {
+        $this->store->touch();
+        $state = new State($this->store, true);
+        $this->assertTrue($state->isOpen());
+        $this->assertTrue($state->isMutable());
 
-    $data = array(
-      'a' => 'foo',
-      'b' => array('c' => 'bar'),
-      'd' => array(1, 2, array(1, 2), 4)
-    );
-    $state->override = $data;
+        $data = array(
+        'a' => 'foo',
+        'b' => array('c' => 'bar'),
+        'd' => array(1, 2, array(1, 2), 4)
+        );
+        $state->override = $data;
     
-    $this->assertEquals($data, $state->toArray());
+        $this->assertEquals($data, $state->toArray());
 
-    $state->defaults = array(
-      'e' => array('f' => 2)
-    );
+        $state->defaults = array(
+        'e' => array('f' => 2)
+        );
     
-    $state->close();
+        $state->close();
     
-    $state = new State($this->store, false);
-    $this->assertEquals($data, $state->toArray());
-    $state->close();
-  }
+        $state = new State($this->store, false);
+        $this->assertEquals($data, $state->toArray());
+        $state->close();
+    }
 }

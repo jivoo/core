@@ -12,33 +12,41 @@ use Psr\Log\LogLevel;
 /**
  * A handler that proxies log messages to another PSR-3 logger.
  */
-class LoggerHandler extends HandlerBase implements LoggerAwareInterface {
-  /**
-   * @var LoggerInterface
-   */
-  private $logger;
-  
-  /**
-   * Construct PSR-3 logger handler.
-   * @param LoggerInterface $logger PSR-3 logger.
-   * @param int $level Minimum log level, see {@see LogLevel}.
-   */
-  public function __construct(LoggerInterface $logger, $level = LogLevel::DEBUG) {
-    parent::__construct($level);
-    $this->logger = $logger;
-  }
-  
-  /**
-   * {@inheritdoc}
-   */
-  public function setLogger(LoggerInterface $logger) {
-    $this->logger = $logger;
-  }
+class LoggerHandler extends HandlerBase implements LoggerAwareInterface
+{
 
-  /**
-   * {@inheritdoc}
-   */
-  public function handle(array $record) {
-    $this->logger->log($record['level'], $record['message'], $record['context']);
-  }
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * Construct PSR-3 logger handler.
+     *
+     * @param LoggerInterface $logger
+     *            PSR-3 logger.
+     * @param int $level
+     *            Minimum log level, see {@see LogLevel}.
+     */
+    public function __construct(LoggerInterface $logger, $level = LogLevel::DEBUG)
+    {
+        parent::__construct($level);
+        $this->logger = $logger;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function handle(array $record)
+    {
+        $this->logger->log($record['level'], $record['message'], $record['context']);
+    }
 }

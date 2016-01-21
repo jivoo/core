@@ -8,111 +8,141 @@ namespace Jivoo\Parse;
 /**
  * Input sequence for an LL(k) parser.
  */
-class ParseInput {
-  /**
-   * @var array
-   */
-  private $input;
+class ParseInput
+{
 
-  /**
-   * @var int
-   */
-  private $pos = 0;
+    /**
+     * @var array
+     */
+    private $input;
 
-  /**
-   * Construct parser input.
-   * @param array $input Input sequence.
-   */
-  public function __construct(array $input) {
-    $this->input = $input;
-  }
-  
-  /**
-   * Converts remaining input sequence to an array.
-   * @return array
-   */
-  public function toArray() {
-    return array_slice($this->input, $this->pos);
-  }
+    /**
+     * @var int
+     */
+    private $pos = 0;
 
-  /**
-   * Reset input pointer.
-   */
-  public function reset() {
-    $this->pos = 0;
-  }
+    /**
+     * Construct parser input.
+     *
+     * @param array $input
+     *            Input sequence.
+     */
+    public function __construct(array $input)
+    {
+        $this->input = $input;
+    }
 
-  /**
-   * Inspect the `$n`'th element in the sequence.
-   * @param int $n
-   * @return mixed|null The element or null if end of sequence.
-   */
-  public function peek($n = 0) {
-    $n += $this->pos;
-    if (isset($this->input[$n]))
-      return $this->input[$n];
-    return null;
-  }
+    /**
+     * Converts remaining input sequence to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_slice($this->input, $this->pos);
+    }
 
-  /**
-   * Return the current element and advance the sequence position.
-   * @return mxied|null The element or null if end of sequence.
-   */
-  public function pop() {
-    if (isset($this->input[$this->pos]))
-      return $this->input[$this->pos++];
-    return null;
-  }
-  
-  /**
-   * Accept the current element if it is equal to the given element.
-   * @param mixed $element Element to accept.
-   * @return bool True if accepted, false otherwise.
-   */
-  public function accept($element) {
-    if ($this->peek() !== $element)
-      return false;
-    $this->pop();
-    return true;
-  }
-  
-  /**
-   * Like {@see accept}, but throws an exception if the current element does not
-   * match. 
-   * @param mixed $element Element to accept.
-   * @throws ParseException If comparison fails.
-   */
-  public function expect($element) {
-    if (!$this->accept($element))
-      throw new ParseException('unexpected "' . $this->peek() . '", expected "' . $element . '"');
-  }
+    /**
+     * Reset input pointer.
+     */
+    public function reset()
+    {
+        $this->pos = 0;
+    }
 
-  /**
-   * Accept the current element if it is a token (as produced by
-   * {@see RegexLexer}) of the given type. 
-   * @param string $type Token type to accept.
-   * @param array $token Output parameter for accepted token.
-   * @return bool True if accepted, false otherwise.
-   */
-  public function acceptToken($type, &$token = null) {
-    $token = $this->peek();
-    if (!isset($token[0]) or $token[0] != $type)
-      return false;
-    $this->pop();
-    return true;
-  }
+    /**
+     * Inspect the `$n`'th element in the sequence.
+     *
+     * @param int $n
+     * @return mixed|null The element or null if end of sequence.
+     */
+    public function peek($n = 0)
+    {
+        $n += $this->pos;
+        if (isset($this->input[$n])) {
+            return $this->input[$n];
+        }
+        return null;
+    }
 
-  
-  /**
-   * Like {@see accept}, but throws an exception if the current element does not
-   * match. 
-   * @param string $type Token type to accept.
-   * @return array The accepted token.
-   * @throws ParseException If comparison fails.
-   */
-  public function expectToken($type) {
-    if (!$this->acceptToken($type, $token))
-      throw new ParseException('unexpected "' . $token[0] . '", expected "' . $type . '"');
-    return $token;
-  }
+    /**
+     * Return the current element and advance the sequence position.
+     *
+     * @return mxied|null The element or null if end of sequence.
+     */
+    public function pop()
+    {
+        if (isset($this->input[$this->pos])) {
+            return $this->input[$this->pos ++];
+        }
+        return null;
+    }
+
+    /**
+     * Accept the current element if it is equal to the given element.
+     *
+     * @param mixed $element
+     *            Element to accept.
+     * @return bool True if accepted, false otherwise.
+     */
+    public function accept($element)
+    {
+        if ($this->peek() !== $element) {
+            return false;
+        }
+        $this->pop();
+        return true;
+    }
+
+    /**
+     * Like {@see accept}, but throws an exception if the current element does not
+     * match.
+     *
+     * @param mixed $element
+     *            Element to accept.
+     * @throws ParseException If comparison fails.
+     */
+    public function expect($element)
+    {
+        if (! $this->accept($element)) {
+            throw new ParseException('unexpected "' . $this->peek() . '", expected "' . $element . '"');
+        }
+    }
+
+    /**
+     * Accept the current element if it is a token (as produced by
+     * {@see RegexLexer}) of the given type.
+     *
+     * @param string $type
+     *            Token type to accept.
+     * @param array $token
+     *            Output parameter for accepted token.
+     * @return bool True if accepted, false otherwise.
+     */
+    public function acceptToken($type, &$token = null)
+    {
+        $token = $this->peek();
+        if (! isset($token[0]) or $token[0] != $type) {
+            return false;
+        }
+        $this->pop();
+        return true;
+    }
+
+    /**
+     * Like {@see accept}, but throws an exception if the current element does not
+     * match.
+     *
+     * @param string $type
+     *            Token type to accept.
+     * @return array The accepted token.
+     * @throws ParseException If comparison fails.
+     */
+    public function expectToken($type)
+    {
+        if (! $this->acceptToken($type, $token)) {
+            throw new ParseException('unexpected "' . $token[0] . '", expected "' . $type . '"');
+        }
+        return $token;
+    }
 }

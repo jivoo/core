@@ -10,4 +10,6 @@ use Jivoo\Exception;
 /**
  * Thrown when a PHP error is caught.
  */
-class ErrorException extends \ErrorException implements Exception {}
+class ErrorException extends \ErrorException implements Exception
+{
+}

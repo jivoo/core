@@ -7,42 +7,53 @@ namespace Jivoo\Log;
 
 use Psr\Log\LogLevel;
 
-abstract class HandlerBase implements Handler {
-  /**
-   * @var string
-   */
-  private $level = LogLevel::DEBUG;
-  
-  /**
-   * Construct abstract log handler.
-   * @param string $level Minimum log level, see {@see LogLevel}.
-   */
-  public function __construct($level = LogLevel::DEBUG) {
-    $this->level = $level;
-  }
-  
-  /**
-   * {@inheritdoc}
-   */
-  public function accepts($level) {
-    return Logger::compare($level, $this->level) >= 0;
-  }
-  
-  /**
-   * {@inheritdoc}
-   */
-  public function handleBatch(array $records) {
-    foreach ($records as $record)
-      $this->handle($record);
-  }
-  
-  /**
-   * Close handler.
-   */
-  public function close() {
-  }
-  
-  public function __destruct() {
-    $this->close();
-  }
-} 
+abstract class HandlerBase implements Handler
+{
+
+    /**
+     *
+     * @var string
+     */
+    private $level = LogLevel::DEBUG;
+
+    /**
+     * Construct abstract log handler.
+     *
+     * @param string $level
+     *            Minimum log level, see {@see LogLevel}.
+     */
+    public function __construct($level = LogLevel::DEBUG)
+    {
+        $this->level = $level;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function accepts($level)
+    {
+        return Logger::compare($level, $this->level) >= 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function handleBatch(array $records)
+    {
+        foreach ($records as $record) {
+            $this->handle($record);
+        }
+    }
+
+    /**
+     * Close handler.
+     */
+    public function close()
+    {
+    }
+
+    public function __destruct()
+    {
+        $this->close();
+    }
+}

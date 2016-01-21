@@ -11,11 +11,12 @@ use Psr\Log\LogLevel;
 /**
  * File log handler.
  */
-class FileHandler extends StreamHandler {
+class FileHandler extends StreamHandler
+{
   /**
    * @var string
    */
-  private $file;
+    private $file;
   
   /**
    * Construct file log handler.
@@ -24,38 +25,41 @@ class FileHandler extends StreamHandler {
    * @param bool $useLocking Whether to lock the file before appending to ensure
    * atomicity of each write.
    */
-  public function __construct($filePath, $level = LogLevel::DEBUG, $useLocking = false) {
-    if (!file_exists($filePath)) {
-      $dir = dirname($filePath);
-      if (!Utilities::dirExists($dir)) {
-        trigger_error('Could not create log directory: ' . $dir, E_USER_WARNING);
-        $this->stream = false;
-        return;
-      }
-      if (!touch($filePath)) {
-        trigger_error('Could not create log file: ' . $filePath, E_USER_WARNING);
-        $this->stream = false;
-        return;
-      }
+    public function __construct($filePath, $level = LogLevel::DEBUG, $useLocking = false)
+    {
+        if (!file_exists($filePath)) {
+            $dir = dirname($filePath);
+            if (!Utilities::dirExists($dir)) {
+                trigger_error('Could not create log directory: ' . $dir, E_USER_WARNING);
+                $this->stream = false;
+                return;
+            }
+            if (!touch($filePath)) {
+                trigger_error('Could not create log file: ' . $filePath, E_USER_WARNING);
+                $this->stream = false;
+                return;
+            }
+        }
+        $this->file = realpath($filePath);
+        parent::__construct(null, $level, $useLocking);
     }
-    $this->file = realpath($filePath);
-    parent::__construct(null, $level, $useLocking);
-  }
   
   /**
    * {@inheritdoc}
    */
-  public function handle(array $record) {
-    if ($this->stream === false)
-      return;
-    if (!isset($this->stream)) {
-      $this->stream = fopen($this->file, 'a');
-      if (!$this->stream) {
-        $this->stream = false;
-        trigger_error('Could not open file: ' . $this->file, E_USER_WARNING);
-        return;
-      }
+    public function handle(array $record)
+    {
+        if ($this->stream === false) {
+            return;
+        }
+        if (!isset($this->stream)) {
+            $this->stream = fopen($this->file, 'a');
+            if (!$this->stream) {
+                $this->stream = false;
+                trigger_error('Could not open file: ' . $this->file, E_USER_WARNING);
+                return;
+            }
+        }
+        parent::handle($record);
     }
-    parent::handle($record);
-  }
 }

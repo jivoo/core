@@ -10,5 +10,6 @@ use Jivoo\Exception;
 /**
  * Thrown when a log level is undefined.
  */
-class ParseException extends \UnexpectedValueException implements Exception {
+class ParseException extends \UnexpectedValueException implements Exception
+{
 }

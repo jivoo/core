@@ -8,5 +8,6 @@ namespace Jivoo;
 /**
  * Thrown when a JSON string is invalid.
  */
-class JsonException extends \UnexpectedValueException
-  implements Exception {}
+class JsonException extends \UnexpectedValueException implements Exception
+{
+}

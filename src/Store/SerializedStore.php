@@ -7,28 +7,32 @@ namespace Jivoo\Store;
 
 /**
  * Serializes data in files using {@see serialize} and {@see unserialize}.
- * 
+ *
  * Writing using {@see SerializedStore} should generally be slower than writing
  * using {@see JsonStore}, but reading using {@see SerializedStore} is generally
  * faster than {@see JsonStore}.
  */
-class SerializedStore extends FileStore {
-  /**
-   * {@inheritdoc}
-   */
-  protected $defaultContent = "a:0:{}";
-  
-  /**
-   * {@inheritdoc}
-   */
-  protected function encode(array $data) {
-    return serialize($data);
-  }
-  
-  /**
-   * {@inheritdoc}
-   */
-  protected function decode($content) {
-    return unserialize($content);
-  }
+class SerializedStore extends FileStore
+{
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $defaultContent = "a:0:{}";
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function encode(array $data)
+    {
+        return serialize($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function decode($content)
+    {
+        return unserialize($content);
+    }
 }

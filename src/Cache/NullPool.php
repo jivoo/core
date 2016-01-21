@@ -10,39 +10,46 @@ use Psr\Cache\CacheItemInterface as CacheItem;
 /**
  * A cache pool that doesn't save any item.
  */
-class NullPool extends PoolBase {
-  /**
-   * {@inheritdoc}
-   */
-  public function getItem($key) {
-    return new NullItem($key);
-  }
+class NullPool extends PoolBase
+{
 
-  /**
-   * {@inheritdoc}
-   */
-  public function clear() {
-    return true;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getItem($key)
+    {
+        return new NullItem($key);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function deleteItems(array $keys) {
-    return $this;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function clear()
+    {
+        return true;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function deleteItem($key) {
-    return true;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteItems(array $keys)
+    {
+        return $this;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function save(CacheItem $item) {
-    return $this;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteItem($key)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function save(CacheItem $item)
+    {
+        return $this;
+    }
 }

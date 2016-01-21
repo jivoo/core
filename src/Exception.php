@@ -8,4 +8,6 @@ namespace Jivoo;
 /**
  * Interface implemented by all exceptions in Jivoo.
  */
-interface Exception {}
+interface Exception
+{
+}

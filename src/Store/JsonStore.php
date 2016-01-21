@@ -10,45 +10,49 @@ use Jivoo\JsonException;
 
 /**
  * Stores data as JSON files.
- * 
+ *
  * Writing using {@see JsonStore} should generally be faster than writing using
  * {@see PhpStore} or {@see SerializedStore}, but reading using {@see JsonStore}
  * is generally slower than {@see SerializedStore}.
- * 
+ *
  * JSON (especially with {@see $prettyPrint} set to true) is ideal for
  * configuration files that can be read and modified by a user.
  */
-class JsonStore extends FileStore {
-  /**
-   * {@inheritdoc}
-   */
-  protected $defaultContent = "{}";
-  
-  /**
-   * @var bool Whether to pretty print the file. 
-   */
-  public $prettyPrint = true;
-  
-  /**
-   * {@inheritdoc}
-   */
-  protected function encode(array $data) {
-    if ($this->prettyPrint)
-      return Json::prettyPrint($data);
-    return Json::encode($data);
-  }
-  
-  /**
-   * {@inheritdoc}
-   */
-  protected function decode($content) {
-    try {
-      return Json::decode($content);
+class JsonStore extends FileStore
+{
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $defaultContent = "{}";
+
+    /**
+     * Whether to pretty print the file.
+     *
+     * @var bool
+     */
+    public $prettyPrint = true;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function encode(array $data)
+    {
+        if ($this->prettyPrint) {
+            return Json::prettyPrint($data);
+        }
+        return Json::encode($data);
     }
-    catch (JsonException $e) {
-      throw new AccessException(
-        'Invalid JSON file: ' . $e->getMessage(), 0, $e
-      );
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function decode($content)
+    {
+        try {
+            return Json::decode($content);
+        } catch (JsonException $e) {
+            throw new AccessException('Invalid JSON file: ' . $e->getMessage(), 0, $e);
+        }
     }
-  }
 }

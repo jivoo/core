@@ -8,5 +8,6 @@ namespace Jivoo\Store;
 /**
  * Thrown when a store is unreadable or unwritable.
  */
-class AccessException extends \UnexpectedValueException
-  implements StoreException {}
+class AccessException extends \UnexpectedValueException implements StoreException
+{
+}

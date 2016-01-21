@@ -8,5 +8,6 @@ namespace Jivoo\Store;
 /**
  * Thrown when a lock could not be acquired.
  */
-class LockException extends AccessException implements StoreException {
+class LockException extends AccessException implements StoreException
+{
 }

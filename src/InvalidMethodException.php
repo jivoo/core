@@ -8,5 +8,6 @@ namespace Jivoo;
 /**
  * Thrown when method is undefined.
  */
-class InvalidMethodException extends \BadMethodCallException
-  implements Exception {}
+class InvalidMethodException extends \BadMethodCallException implements Exception
+{
+}

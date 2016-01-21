@@ -10,59 +10,70 @@ use Psr\Cache\CacheItemInterface as CacheItem;
 /**
  * A cache item without a value.
  */
-class NullItem implements CacheItem {
-  /**
-   * @var string
-   */
-  private $key;
+class NullItem implements CacheItem
+{
 
-  /**
-   * Construct item.
-   * @param string $key Item key.
-   */
-  public function __construct($key) {
-    $this->key = $key;
-  }
+    /**
+     * @var string
+     */
+    private $key;
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getKey() {
-    return $this->key;
-  }
+    /**
+     * Construct item.
+     *
+     * @param string $key
+     *            Item key.
+     */
+    public function __construct($key)
+    {
+        $this->key = $key;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function get() {
-    return null;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function set($value) {
-    return $this;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function get()
+    {
+        return null;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function isHit() {
-    return false;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function set($value)
+    {
+        return $this;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function expiresAt($expiration) {
-    return $this;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function isHit()
+    {
+        return false;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function expiresAfter($time) {
-    return $this;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function expiresAt($expiration)
+    {
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function expiresAfter($time)
+    {
+        return $this;
+    }
 }

@@ -8,5 +8,6 @@ namespace Jivoo;
 /**
  * Thrown when an event is undefined.
  */
-class InvalidEventException extends \DomainException
-  implements Exception {}
+class InvalidEventException extends \DomainException implements Exception
+{
+}

@@ -10,4 +10,6 @@ use Jivoo\Exception;
 /**
  * Store exception.
  */
-interface StoreException extends Exception {}
+interface StoreException extends Exception
+{
+}

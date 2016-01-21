@@ -8,115 +8,143 @@ namespace Jivoo\Store;
 /**
  * Stores data in PHP sessions.
  */
-class PhpSessionStore implements Store {
-  /**
-   * @var bool Whether or not session is open.
-   */
-  private $open = false;
+class PhpSessionStore implements Store
+{
 
-  /**
-   * @var bool Whether or not session is mutable.
-   */
-  private $mutable = false;
+    /**
+     * Whether or not session is open.
+     *
+     * @var bool
+     */
+    private $open = false;
 
-  /**
-   * @var string Session subkey.
-   */
-  public $key = null;
-  
-  /**
-   * @var string Session cookie name.
-   */
-  public $name = null;
-  
-  /**
-   * @var bool Whether to enable Secure flag on session cookie.
-   */
-  public $secure = false;
-  
-  /**
-   * @var bool Whether to enable HttpOnly flag on session cookie.
-   */
-  public $httpOnly = true;
-  
-  /**
-   * @var array
-   */
-  private $data = null;
-  
-  /**
-   * {@inheritdoc}
-   */
-  public function open($mutable = false) {
-    $params = session_get_cookie_params();
-    session_set_cookie_params(
-      $params['lifetime'],
-      $params['path'],
-      $params['domain'],
-      $this->secure, $this->httpOnly
-    );
-    if (isset($this->name))
-      session_name($this->name);
-    if (!session_start())
-      throw new AccessException('Could not start PHP session');
-    $this->open = true;
-    $this->mutable = $mutable;
-    if (isset($this->key)) {
-      $this->data = array();
-      if (isset($_SESSION[$this->key]))
-        $this->data = $_SESSION[$this->key];  
+    /**
+     * Whether or not session is mutable.
+     *
+     * @var bool
+     */
+    private $mutable = false;
+
+    /**
+     * Session subkey.
+     *
+     * @var string
+     */
+    public $key = null;
+
+    /**
+     * Session cookie name.
+     *
+     * @var string
+     */
+    public $name = null;
+
+    /**
+     * Whether to enable Secure flag on session cookie.
+     *
+     * @var bool
+     */
+    public $secure = false;
+
+    /**
+     * Whether to enable HttpOnly flag on session cookie.
+     *
+     * @var bool
+     */
+    public $httpOnly = true;
+
+    /**
+     * @var array
+     */
+    private $data = null;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function open($mutable = false)
+    {
+        $params = session_get_cookie_params();
+        session_set_cookie_params(
+            $params['lifetime'],
+            $params['path'],
+            $params['domain'],
+            $this->secure,
+            $this->httpOnly
+        );
+        if (isset($this->name)) {
+            session_name($this->name);
+        }
+        if (! session_start()) {
+            throw new AccessException('Could not start PHP session');
+        }
+        $this->open = true;
+        $this->mutable = $mutable;
+        if (isset($this->key)) {
+            $this->data = array();
+            if (isset($_SESSION[$this->key])) {
+                $this->data = $_SESSION[$this->key];
+            }
+        } else {
+            $this->data = $_SESSION;
+        }
     }
-    else {
-      $this->data = $_SESSION;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function close()
+    {
+        if (! $this->open) {
+            return;
+        }
+        session_write_close();
+        $this->open = false;
+        $this->mutable = false;
+        $this->data = null;
     }
-  }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function close() {
-    if (!$this->open)
-      return;
-    session_write_close();
-    $this->open = false;
-    $this->mutable = false;
-    $this->data = null;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function read()
+    {
+        if (isset($this->data)) {
+            return $this->data;
+        }
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function read() {
-    if (isset($this->data))
-      return $this->data;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function write(array $data)
+    {
+        if (! $this->open) {
+            return;
+        }
+        if (! $this->mutable) {
+            throw new AccessException('Not mutable');
+        }
+        $this->data = $data;
+        if (isset($this->key)) {
+            $_SESSION[$this->key] = $this->data;
+        } else {
+            $_SESSION = $this->data;
+        }
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function write(array $data) {
-    if (!$this->open)
-      return;
-    if (!$this->mutable)
-      throw new AccessException('Not mutable');
-    $this->data = $data;
-    if (isset($this->key))
-      $_SESSION[$this->key] = $this->data;
-    else
-      $_SESSION = $this->data;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function isOpen()
+    {
+        return $this->open;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function isOpen() {
-    return $this->open;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isMutable() {
-    return $this->mutable;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function isMutable()
+    {
+        return $this->mutable;
+    }
 }

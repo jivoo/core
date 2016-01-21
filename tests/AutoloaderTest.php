@@ -5,38 +5,43 @@
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
 namespace Jivoo;
 
-class AutoloaderTest extends TestCase {
-  public function testSingleton() {
-    $instance = Autoloader::getInstance();
-    $this->assertSame($instance, Autoloader::getInstance());
-  }
+class AutoloaderTest extends TestCase
+{
+    public function testSingleton()
+    {
+        $instance = Autoloader::getInstance();
+        $this->assertSame($instance, Autoloader::getInstance());
+    }
   
-  public function testRegister() {
-    $autoloader = $this->getMockBuilder('Jivoo\Autoloader')
-      ->setMethods(array('load'))
-      ->getMock();
-    $autoloader->expects($this->once())
-      ->method('load')
-      ->with($this->equalTo('Jivoo\Foo\Bar'))
-      ->willReturn(false);;
-    $this->assertFalse(class_exists('\Jivoo\Foo\Bar'));
-    $autoloader->register();
-    $this->assertFalse(class_exists('\Jivoo\Foo\Bar'));
-    $autoloader->unregister();
-    $this->assertFalse(class_exists('\Jivoo\Foo\Bar'));
-  }
+    public function testRegister()
+    {
+        $autoloader = $this->getMockBuilder('Jivoo\Autoloader')
+        ->setMethods(array('load'))
+        ->getMock();
+        $autoloader->expects($this->once())
+        ->method('load')
+        ->with($this->equalTo('Jivoo\Foo\Bar'))
+        ->willReturn(false);
+        ;
+        $this->assertFalse(class_exists('\Jivoo\Foo\Bar'));
+        $autoloader->register();
+        $this->assertFalse(class_exists('\Jivoo\Foo\Bar'));
+        $autoloader->unregister();
+        $this->assertFalse(class_exists('\Jivoo\Foo\Bar'));
+    }
   
-  public function testLoad() {
-    $autoloader = new Autoloader();
-    $autoloader->addPath('Foo', 'src/Cache');
-    $autoloader->addPath('Foo', 'src/I18n');
-//     $autoloader->addPath('Foo\Selection', 'src/Models/Selection');
-    $this->assertFalse($autoloader->load('Bar'));
-    $this->assertFalse($autoloader->load('Foo\Bar'));
-    $this->assertTrue($autoloader->load('Foo\I18n'));
-    $this->assertTrue($autoloader->load('Foo\Cache'));
-//     $this->assertTrue($autoloader->load('Foo\Selection\SelectionBuilder'));
+    public function testLoad()
+    {
+        $autoloader = new Autoloader();
+        $autoloader->addPath('Foo', 'src/Cache');
+        $autoloader->addPath('Foo', 'src/I18n');
+  //     $autoloader->addPath('Foo\Selection', 'src/Models/Selection');
+        $this->assertFalse($autoloader->load('Bar'));
+        $this->assertFalse($autoloader->load('Foo\Bar'));
+        $this->assertTrue($autoloader->load('Foo\I18n'));
+        $this->assertTrue($autoloader->load('Foo\Cache'));
+  //     $this->assertTrue($autoloader->load('Foo\Selection\SelectionBuilder'));
     
-    // TODO: mock loadFrom and test paths etc.
-  }
+      // TODO: mock loadFrom and test paths etc.
+    }
 }

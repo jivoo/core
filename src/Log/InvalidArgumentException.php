@@ -10,5 +10,6 @@ use Jivoo\Exception;
 /**
  * Thrown when a log level is undefined.
  */
-class InvalidArgumentException extends \Psr\Log\InvalidArgumentException implements Exception {
+class InvalidArgumentException extends \Psr\Log\InvalidArgumentException implements Exception
+{
 }

@@ -8,5 +8,6 @@ namespace Jivoo;
 /**
  * Thrown when property is undefined.
  */
-class InvalidPropertyException extends \OutOfRangeException
-  implements Exception {}
+class InvalidPropertyException extends \OutOfRangeException implements Exception
+{
+}

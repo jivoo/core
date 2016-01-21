@@ -8,80 +8,99 @@ namespace Jivoo;
 /**
  * Event subject implementation.
  */
-abstract class EventSubjectBase implements EventSubject {
-  /**
-   * @var string[] List of event names triggered by this subject.
-   */
-  protected $events = array();
+abstract class EventSubjectBase implements EventSubject
+{
 
-  /**
-   * @var EventManager Event manager.
-   */
-  protected $e;
+    /**
+     * List of event names triggered by this subject.
+     *
+     * @var string[]
+     */
+    protected $events = array();
 
-  /**
-   * Construct event subject. Should always be called when extending this class.
-   */
-  public function __construct() {
-    $this->e = new EventManager($this);
-  }
+    /**
+     * Event manager.
+     *
+     * @var EventManager
+     */
+    protected $e;
 
-  /**
-   * {@inheritdoc}
-   */
-  public function attachEventHandler($name, $callback) {
-    $this->e->attachHandler($name, $callback);
-  }
+    /**
+     * Construct event subject.
+     * Should always be called when extending this class.
+     */
+    public function __construct()
+    {
+        $this->e = new EventManager($this);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function on($name, $callback) {
-    $this->e->attachHandler($name, $callback);
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function attachEventHandler($name, $callback)
+    {
+        $this->e->attachHandler($name, $callback);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function one($name, $callback) {
-    $this->e->attachHandler($name, $callback, true);
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function on($name, $callback)
+    {
+        $this->e->attachHandler($name, $callback);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function attachEventListener(EventListener $listener) {
-    $this->e->attachListener($listener);
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function one($name, $callback)
+    {
+        $this->e->attachHandler($name, $callback, true);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function detachEventHandler($name, $callback) {
-    $this->e->detachHandler($name, $callback);
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function attachEventListener(EventListener $listener)
+    {
+        $this->e->attachListener($listener);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function detachEventListener(EventListener $listener) {
-    $this->e->detachListener($listener);
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function detachEventHandler($name, $callback)
+    {
+        $this->e->detachHandler($name, $callback);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getEvents() {
-    return $this->events;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function detachEventListener(EventListener $listener)
+    {
+        $this->e->detachListener($listener);
+    }
 
-  /**
-   * Trigger an event on this object.
-   * @param string $name Name of event.
-   * @param Event $event Event object.
-   * @return bool False if event was stopped, true otherwise.
-   */
-  public function triggerEvent($name, Event $event = null) {
-    return $this->e->trigger($name, $event);
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * Trigger an event on this object.
+     *
+     * @param string $name
+     *            Name of event.
+     * @param Event $event
+     *            Event object.
+     * @return bool False if event was stopped, true otherwise.
+     */
+    public function triggerEvent($name, Event $event = null)
+    {
+        return $this->e->trigger($name, $event);
+    }
 }

@@ -10,5 +10,6 @@ use Jivoo\Exception;
 /**
  * Thrown when a locale file is unreadable.
  */
-class LocaleException extends \UnexpectedValueException
-  implements Exception {}
+class LocaleException extends \UnexpectedValueException implements Exception
+{
+}

@@ -8,41 +8,56 @@ namespace Jivoo;
 /**
  * An event.
  */
-class Event {
-  /**
-   * @var bool Has event been stopped.
-   */
-  public $stopped = false;
-  
-  /**
-   * @var string|null Name of event.
-   */
-  public $name = null;
-  
-  /**
-   * @var object|null Sender of event.
-   */
-  public $sender = null;
-  
-  /**
-   * @var array Event parameters.
-   */
-  public $parameters = array();
+class Event
+{
 
-  /**
-   * Construct event.
-   * @param object|null $sender Sender of event.
-   * @param array $parameters Additional event paramters.
-  */
-  public function __construct($sender = null, $parameters = array()) {
-    $this->sender = $sender;
-    $this->parameters = $parameters;
-  }
+    /**
+     * Has event been stopped.
+     *
+     * @var bool
+     */
+    public $stopped = false;
 
-  /**
-   * Stop propagation of event.
-   */
-  public function stopPropagation() {
-    $this->stopped = true;
-  }
+    /**
+     * Name of event.
+     *
+     * @var string|null
+     */
+    public $name = null;
+
+    /**
+     * Sender of event.
+     *
+     * @var object|null
+     */
+    public $sender = null;
+
+    /**
+     * Event parameters.
+     *
+     * @var array
+     */
+    public $parameters = array();
+
+    /**
+     * Construct event.
+     *
+     * @param object|null $sender
+     *            Sender of event.
+     * @param array $parameters
+     *            Additional event paramters.
+     */
+    public function __construct($sender = null, $parameters = array())
+    {
+        $this->sender = $sender;
+        $this->parameters = $parameters;
+    }
+
+    /**
+     * Stop propagation of event.
+     */
+    public function stopPropagation()
+    {
+        $this->stopped = true;
+    }
 }

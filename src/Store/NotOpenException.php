@@ -8,5 +8,6 @@ namespace Jivoo\Store;
 /**
  * Thrown when a state has already been closed (or hasn't been opened).
  */
-class NotOpenException extends \DomainException implements StoreException {
+class NotOpenException extends \DomainException implements StoreException
+{
 }
