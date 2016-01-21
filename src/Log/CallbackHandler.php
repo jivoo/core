@@ -24,12 +24,12 @@ class CallbackHandler extends HandlerBase
     /**
      * Construct callback log handler.
      *
-     * @param callabke $callback
+     * @param callable $callback
      *            Log hanlder function.
      * @param string $level
      *            Minimum log level, see {@see \Psr\Log\LogLevel}.
      */
-    public function __construct($callback, $level = LogLevel::DEBUG)
+    public function __construct(callable $callback, $level = LogLevel::DEBUG)
     {
         parent::__construct($level);
         $this->callback = $callback;

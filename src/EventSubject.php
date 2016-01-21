@@ -17,11 +17,11 @@ interface EventSubject
      *
      * @param string $name
      *            Name of event to handle.
-     * @param callback $callback
+     * @param callable $callback
      *            Function to call. Function must accept an
      *            {@see Event) as its first parameter.
      */
-    public function attachEventHandler($name, $callback);
+    public function attachEventHandler($name, callable $callback);
 
     /**
      * Attach an event handler to an event (shorter alternative to
@@ -29,7 +29,7 @@ interface EventSubject
      *
      * @param string $name
      *            Name of event to handle.
-     * @param callback $callback
+     * @param callable $callback
      *            Function to call. Function must accept an
      *            {@see Event) as its first parameter.
      */
@@ -43,11 +43,11 @@ interface EventSubject
      *
      * @param string $name
      *            Name of event to handle.
-     * @param callback $callback
+     * @param callable $callback
      *            Function to call. Function must accept an
      *            {@see Event) as its first parameter.
      */
-    public function one($name, $callback);
+    public function one($name, callable $callback);
 
     /**
      * Attach an event listener to object (i.e.
@@ -64,10 +64,10 @@ interface EventSubject
      *
      * @param string $name
      *            Name of event.
-     * @param callback $callback
+     * @param callable $callback
      *            Function to detach from event.
      */
-    public function detachEventHandler($name, $callback);
+    public function detachEventHandler($name, callable $callback);
 
     /**
      * Detach all handlers implemented by an event listener.

@@ -15,7 +15,7 @@ class EventManager
      * Associative array where the key is an event name and the value
      * is an array of callbacks.
      *
-     * @var array
+     * @var callable[]
      */
     private $events = array();
 
@@ -65,14 +65,14 @@ class EventManager
      *
      * @param string $name
      *            Name of event to handle.
-     * @param callback $callback
+     * @param callable $callback
      *            Function to call. Function must accept an
      *            {@see Event} as its first parameter.
      * @param bool $once
      *            Whether to invoke the handler only the first time the
      *            event is triggered.
      */
-    public function attachHandler($name, $callback, $once = false)
+    public function attachHandler($name, callable $callback, $once = false)
     {
         if (! isset($this->events[$name])) {
             if (strpos($name, '.') === false) {
@@ -84,10 +84,9 @@ class EventManager
             $this->events[$name] = array();
         }
         if ($once) {
-            $self = $this; // 5.3 compatibility
-            $this->events[$name][] = function ($event) use ($self, $name, $callback) {
+            $this->events[$name][] = function ($event) use ($name, $callback) {
                 $ret = call_user_func($callback, $event);
-                $self->detachHandler($name, $callback);
+                $this->detachHandler($name, $callback);
                 return $ret;
             };
         } else {
@@ -125,11 +124,11 @@ class EventManager
      *
      * @param string $name
      *            Name of event.
-     * @param callback $callback
+     * @param callable $callback
      *            Function to detach from event.
      * @return bool True if handler found and removed, false otherwise.
      */
-    public function detachHandler($name, $callback)
+    public function detachHandler($name, callable $callback)
     {
         if (! isset($this->events[$name])) {
             return false;

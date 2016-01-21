@@ -37,7 +37,7 @@ abstract class EventSubjectBase implements EventSubject
     /**
      * {@inheritdoc}
      */
-    public function attachEventHandler($name, $callback)
+    public function attachEventHandler($name, callable $callback)
     {
         $this->e->attachHandler($name, $callback);
     }
@@ -45,7 +45,7 @@ abstract class EventSubjectBase implements EventSubject
     /**
      * {@inheritdoc}
      */
-    public function on($name, $callback)
+    public function on($name, callable $callback)
     {
         $this->e->attachHandler($name, $callback);
     }
@@ -53,7 +53,7 @@ abstract class EventSubjectBase implements EventSubject
     /**
      * {@inheritdoc}
      */
-    public function one($name, $callback)
+    public function one($name, callable $callback)
     {
         $this->e->attachHandler($name, $callback, true);
     }
@@ -69,7 +69,7 @@ abstract class EventSubjectBase implements EventSubject
     /**
      * {@inheritdoc}
      */
-    public function detachEventHandler($name, $callback)
+    public function detachEventHandler($name, callable $callback)
     {
         $this->e->detachHandler($name, $callback);
     }

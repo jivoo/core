@@ -29,7 +29,8 @@ class EventManagerTest extends \Jivoo\TestCase
         $this->assertTrue($em2->trigger(get_class($subject1) . '.someEvent'));
 
         $this->assertThrows('Jivoo\InvalidEventException', function () use ($em1) {
-            $em1->attachHandler('someOtherEvent', null);
+            $em1->attachHandler('someOtherEvent', function () {
+            });
         });
         $this->assertThrows('Jivoo\InvalidEventException', function () use ($em1) {
             $em1->trigger('someOtherEvent');
