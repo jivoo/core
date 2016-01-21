@@ -38,7 +38,7 @@ class MutableItem implements CacheItem {
    * @param bool $hit Whether the value is valid.
    * @param \DateTimeInterface|null $expiration Expiration time if any.
    */
-  public function __construct($key, $value, $hit, \DateTimeInterface $expiration = null) {
+  public function __construct($key, $value, $hit, $expiration = null) {
     $this->key = $key;
     $this->value = $value;
     $this->hit = $hit;
