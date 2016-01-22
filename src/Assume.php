@@ -5,10 +5,6 @@
 // See the LICENSE file or http://opensource.org/licenses/MIT for more information.
 namespace Jivoo;
 
-use Jivoo\InvalidArgumentException;
-use Jivoo\InvalidClassException;
-use Jivoo\InvalidTypeException;
-
 /**
  * Utility methods for assumptions/preconditions.
  */
@@ -35,13 +31,13 @@ class Assume
             return;
         }
         if (isset($message)) {
-            throw new Jivoo\InvalidArgumentException($message);
+            throw new InvalidArgumentException($message);
         }
         $bt = debug_backtrace();
         $call = $bt[0];
         $lines = file($call['file']);
         preg_match('/' . $call['function'] . '\((.+)\)/', $lines[$call['line'] - 1], $matches);
-        throw new Jivoo\InvalidArgumentException('Assumption failed: ' . $matches[1]);
+        throw new InvalidArgumentException('Assumption failed: ' . $matches[1]);
     }
 
     /**
