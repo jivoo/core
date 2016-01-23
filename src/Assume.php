@@ -11,6 +11,9 @@ namespace Jivoo;
 class Assume
 {
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function __construct()
     {
     }
@@ -61,17 +64,17 @@ class Assume
                 return;
             }
             if (! class_exists($class)) {
-                throw new InvalidClassException('Class not found: ' . $class);
+                throw new InvalidArgumentException('Class not found: ' . $class);
             }
-            throw new InvalidClassException('Class ' . $class . ' should extend ' . $parent);
+            throw new InvalidArgumentException('Class ' . $class . ' should extend ' . $parent);
         }
     }
 
     /**
      * Check whether or not $object is an instance of $class.
      *
-     * @param
-     *            mixed
+     * @param mixed $object
+     *            Object.
      * @param string $class
      *            Class name.
      * @throws InvalidTypeException If $object is not an instance of $class.
@@ -79,7 +82,7 @@ class Assume
     public static function isInstanceOf($object, $class)
     {
         if (! ($object instanceof $class)) {
-            self::typeError($value, 'an instance of ' . $class);
+            self::typeError($object, 'an instance of ' . $class);
         }
     }
 
@@ -150,7 +153,7 @@ class Assume
 
     private static function typeError($value, $expected)
     {
-        throw new InvalidTypeException('Value of type "' . self::getType($value) . '" must be ' . $expected);
+        throw new InvalidArgumentException('Value of type "' . self::getType($value) . '" must be ' . $expected);
     }
 
     private static function getType($value)

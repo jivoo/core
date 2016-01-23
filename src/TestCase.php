@@ -19,13 +19,19 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      * @param callable $callable
      *            Callable that should throw exception.
      */
-    protected function assertThrows($expected, $callable)
+    protected function assertThrows($expected, $callable, $message = null)
     {
         try {
             $callable();
-            $this->fail('Exception of type ' . $expected . ' not thrown');
+            if (isset($message)) {
+                $this->fail($message);
+            } else {
+                $this->fail('Exception of type ' . $expected . ' not thrown');
+            }
         } catch (\Exception $actual) {
-            $this->assertInstanceOf($expected, $actual);
+            if (! is_a($actual, $expected)) {
+                throw $actual;
+            }
         }
     }
 }
