@@ -55,6 +55,28 @@ class Json
     {
         $object = json_decode($json, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
+            $error = 'JSON error';
+            if (function_exists('json_last_error_msg')) {
+                $error = json_last_error_msg();
+            } else { // @codeCoverageIgnoreStart
+                switch (json_last_error()) {
+                    case JSON_ERROR_DEPTH:
+                        $error = 'maximum stack depth exceeded';
+                        break;
+                    case JSON_ERROR_STATE_MISMATCH:
+                        $error = 'invalid or malformed JSON';
+                        break;
+                    case JSON_ERROR_CTRL_CHAR:
+                        $error = 'control character error';
+                        break;
+                    case JSON_ERROR_SYNTAX:
+                        $error = 'JSON syntax error';
+                        break;
+                    case JSON_ERROR_UTF8:
+                        $error = 'malformed UTF-8 characters';
+                        break;
+                }
+            } // @codeCoverageIgnoreEnd
             throw new JsonException(json_last_error_msg());
         }
         return $object;
