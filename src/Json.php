@@ -77,7 +77,7 @@ class Json
                         break;
                 }
             } // @codeCoverageIgnoreEnd
-            throw new JsonException(json_last_error_msg());
+            throw new JsonException($error);
         }
         return $object;
     }
