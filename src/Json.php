@@ -13,6 +13,13 @@ class Json
 {
 
     /**
+     * @codeCoverageIgnore
+     */
+    private function __construct()
+    {
+    }
+
+    /**
      * Encode a value as JSON.
      *
      * @param mixed $object

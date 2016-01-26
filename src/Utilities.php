@@ -11,6 +11,9 @@ namespace Jivoo;
 class Utilities
 {
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function __construct()
     {
     }

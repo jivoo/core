@@ -31,6 +31,10 @@ class ParseInputTest extends TestCase
         $this->assertEquals('b', $input->peek(1));
         $this->assertEquals('b', $input->peek(2));
         $this->assertNull($input->peek(3));
+        $input->expect('a');
+        $this->assertEquals(array('b', 'b'), $input->toArray());
+        $input->reset();
+        $this->assertEquals(array('a', 'a', 'b', 'b'), $input->toArray());
     }
   
     public function testAccept()

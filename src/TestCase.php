@@ -18,6 +18,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *            Expected exception class or interface.
      * @param callable $callable
      *            Callable that should throw exception.
+     * @return \Exception|null The exception thrown.
      */
     protected function assertThrows($expected, $callable, $message = null)
     {
@@ -32,6 +33,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             if (! is_a($actual, $expected)) {
                 throw $actual;
             }
+            return $actual;
         }
-    }
+    } // @codeCoverageIgnore
 }

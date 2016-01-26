@@ -11,6 +11,9 @@ namespace Jivoo;
 class Binary
 {
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function __construct()
     {
     }

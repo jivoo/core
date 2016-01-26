@@ -46,4 +46,41 @@ class UtilitiesTest extends \Jivoo\TestCase
         usort($array, array('Jivoo\Utilities', 'prioritySorter'));
         $this->assertEquals(array($c, $b, $a), $array);
     }
+    
+    public function testIsAbsolutePath()
+    {
+        $this->assertTrue(Utilities::isAbsolutePath('/'));
+        $this->assertTrue(Utilities::isAbsolutePath('\foo\bar'));
+        $this->assertTrue(Utilities::isAbsolutePath('c:/windows'));
+
+        $this->assertFalse(Utilities::isAbsolutePath(''));
+        $this->assertFalse(Utilities::isAbsolutePath('.'));
+        $this->assertFalse(Utilities::isAbsolutePath('../foo'));
+        $this->assertFalse(Utilities::isAbsolutePath('foo/bar'));
+    }
+    
+    public function testGetNamespace()
+    {
+        $this->assertEquals('', Utilities::getNamespace('Exception'));
+        $this->assertEquals('', Utilities::getNamespace(new \Exception()));
+
+        $this->assertEquals('Jivoo', Utilities::getNamespace('Jivoo\Utilities'));
+        $this->assertEquals('Jivoo\Cache', Utilities::getNamespace('Jivoo\Cache\Pool'));
+    }
+    
+    public function testGetClassName()
+    {
+        $this->assertEquals('Exception', Utilities::getClassName('Exception'));
+        $this->assertEquals('Exception', Utilities::getClassName(new \Exception()));
+
+        $this->assertEquals('Utilities', Utilities::getClassName('Jivoo\Utilities'));
+        $this->assertEquals('Pool', Utilities::getClassName('Jivoo\Cache\Pool'));
+    }
+    
+    public function testGetFileExtension()
+    {
+        $this->assertEquals('jpeg', Utilities::getFileExtension('foo/bar.jpeg'));
+        $this->assertEquals('php', Utilities::getFileExtension('foo/bar.jpeg.php'));
+        $this->assertEquals('php', Utilities::getFileExtension('foo/bar.jpeg.php?foobar.test=foo/test'));
+    }
 }

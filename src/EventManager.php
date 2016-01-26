@@ -84,11 +84,12 @@ class EventManager
             $this->events[$name] = array();
         }
         if ($once) {
-            $this->events[$name][] = function ($event) use ($name, $callback) {
+            $temp = function ($event) use ($name, $callback, &$temp) {
                 $ret = call_user_func($callback, $event);
-                $this->detachHandler($name, $callback);
+                $this->detachHandler($name, $temp);
                 return $ret;
             };
+            $this->events[$name][] = $temp;
         } else {
             $this->events[$name][] = $callback;
         }

@@ -33,7 +33,7 @@ interface EventSubject
      *            Function to call. Function must accept an
      *            {@see Event) as its first parameter.
      */
-    public function on($name, $callback);
+    public function on($name, callable $callback);
 
     /**
      * Attach an event handler to an event (shorter alternative to

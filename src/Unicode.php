@@ -11,6 +11,9 @@ namespace Jivoo;
 class Unicode
 {
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function __construct()
     {
     }
