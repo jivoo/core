@@ -43,7 +43,7 @@ class WrapperPool extends PoolBase
      */
     public function getItems(array $keys = array())
     {
-        return $this->pool->getItem($keys);
+        return $this->pool->getItems($keys);
     }
 
     /**
