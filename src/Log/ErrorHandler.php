@@ -254,11 +254,12 @@ class ErrorHandler implements LoggerAwareInterface
      */
     public static function detect($callable, $mask = -1)
     {
-        self::$catch = $mask;
+        $error = null;
+        set_error_handler(function ($type, $message, $file, $line) use ($error) {
+            $error = new ErrorException($message, 0, $type, $file, $line);
+        }, $mask);
         $callable();
-        $error = self::$error;
-        self::$catch = 0;
-        self::$error = null;
+        restore_error_handler();
         return $error;
     }
 }
