@@ -189,5 +189,6 @@ class Autoloader
                 }
             }
         }
+        return false;
     }
 }
