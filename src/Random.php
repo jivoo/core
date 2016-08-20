@@ -41,7 +41,7 @@ class Random
      */
     private static function mcryptBytes($n)
     {
-        if (! function_exists('mcrypt_create_iv') or ! defined('MCRYPT_DEV_URANDOM ')) {
+        if (! function_exists('mcrypt_create_iv') or ! defined('MCRYPT_DEV_URANDOM')) {
             return null;
         }
         $bytes = mcrypt_create_iv($n, MCRYPT_DEV_URANDOM);
