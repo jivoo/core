@@ -166,6 +166,5 @@ abstract class PoolTest extends \Jivoo\TestCase
 
         $this->assertEquals(10, $pool->decrement('foobar', 1, 10));
         $this->assertHit(10, $pool, 'foobar');
-    
     }
 }

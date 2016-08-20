@@ -6,7 +6,7 @@ class WrapperPooltest extends \Jivoo\TestCase
   
     public function testWrapper()
     {
-        $pool = $this->getMock('Psr\Cache\CacheItemPoolInterface');
+        $pool = $this->getMockBuilder('Psr\Cache\CacheItemPoolInterface')->getMock();
         $wrapper = new WrapperPool($pool);
         
         $pool->expects($this->once())
@@ -61,6 +61,5 @@ class WrapperPooltest extends \Jivoo\TestCase
             ->method('commit')
             ->willReturn(true);
         $this->assertTrue($wrapper->commit());
-        
     }
 }
