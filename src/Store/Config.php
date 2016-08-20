@@ -62,7 +62,6 @@ class Config extends Document
             $this->store->open(false);
             $this->data = $this->store->read();
         } catch (StoreException $e) {
-
         }
         $this->store->close();
     }

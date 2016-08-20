@@ -407,7 +407,6 @@ class Document implements \ArrayAccess, \IteratorAggregate
     public function offsetSet($key, $value)
     {
         if (is_null($key)) {
-
         } else {
             $this->set($key, $value);
         }
