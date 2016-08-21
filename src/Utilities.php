@@ -223,4 +223,52 @@ class Utilities
     {
         return $b['priority'] - $a['priority'];
     }
+    
+    /**
+     * Get caller class and method.
+     *
+     * @return string Either returns the name of the class and method as a
+     * string (either 'Class->method' or 'Class::staticMethod'), the name of the
+     * function, '{closure}', or '{null}'.
+     */
+    public static function getCaller()
+    {
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+        if (isset($backtrace[2])) {
+            $caller = '';
+            if (isset($backtrace[2]['class'])) {
+                $caller = $backtrace[2]['class'] . $backtrace[2]['type'];
+            }
+            $caller .= $backtrace[2]['function'];
+            return $caller;
+        }
+        return '{null}';
+    }
+    
+    /**
+     * Check whether or not $class extends $parent, and throw an exception if
+     * it does not. Also exists as a precondition: {@see Assume::isSubclassOf}.
+     *
+     * @param string|object $class
+     *            Class name or object.
+     * @param string $parent
+     *            Expected parent class of $class.
+     * @return boolean True if `$class` extends `$parent`.
+     */
+    public static function isSubclassOf($class, $parent)
+    {
+        if (! is_subclass_of($class, $parent)) {
+            if (is_object($class)) {
+                $class = get_class($class);
+            }
+            if ($class === $parent) {
+                return true;
+            }
+            if (! class_exists($class)) {
+                return false;
+            }
+            return false;
+        }
+        return true;
+    }
 }

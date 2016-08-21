@@ -29,6 +29,11 @@ class ErrorHandler implements LoggerAwareInterface
      * @var string
      */
     private static $error = null;
+    
+    /**
+     * @var int
+     */
+    private $oldLevel = -1;
 
     /**
      * @var LoggerInterface
@@ -108,6 +113,7 @@ class ErrorHandler implements LoggerAwareInterface
      */
     public function register()
     {
+        $this->oldLevel = error_reporting(-1);
         set_error_handler(array(
             $this,
             'handle'
@@ -123,6 +129,7 @@ class ErrorHandler implements LoggerAwareInterface
      */
     public function unregister()
     {
+        error_reporting($this->oldLevel);
         restore_error_handler();
     }
 
