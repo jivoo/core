@@ -12,6 +12,13 @@ class Modules
 {
     
     /**
+     * Mapping from module names to class names.
+     *
+     * @var string[]
+     */
+    protected $types = [];
+    
+    /**
      * @var object[]
      */
     private $instances = [];
@@ -72,16 +79,18 @@ class Modules
      */
     public function __set($name, $instance)
     {
-        if (isset($this->$name)) {
-            $existing = get_class($this->$name);
-            if (!Utilities::isSubclassOf($instance, $existing)) {
+        if (isset($this->types[$name])) {
+            if (!Utilities::isSubclassOf($instance, $this->types[$name])) {
                 throw new InvalidModuleException(
-                    'The module "' . $name . '" of type ' . $existing
-                    . ' cannot be replaced by a module of type ' . get_class($instance)
+                    'The module "' . $name . '" is expected to be an instance of '
+                    . $this->types[$name]
                 );
             }
         }
         $this->instances[$name] = $instance;
+        if (! isset($this->types[$name])) {
+            $this->types[$name] = get_class($instance);
+        }
     }
     
     /**
