@@ -82,8 +82,8 @@ class Modules
         if (isset($this->types[$name])) {
             if (!Utilities::isSubclassOf($instance, $this->types[$name])) {
                 throw new InvalidModuleException(
-                    'The module "' . $name . '" is expected to be an instance of '
-                    . $this->types[$name]
+                    'The module "' . $name . '" of type ' . get_class($instance)
+                    . ' is expected to be an instance of  ' . $this->types[$name]
                 );
             }
         }
