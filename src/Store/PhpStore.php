@@ -14,7 +14,7 @@ class PhpStore extends FileStore
     /**
      * {@inheritdoc}
      */
-    protected $defaultContent = "<?php\nreturn array();";
+    protected $defaultContent = "<?php\nreturn [];";
 
     /**
      * {@inheritdoc}
@@ -49,7 +49,7 @@ class PhpStore extends FileStore
      */
     public static function prettyPrint($data, $prefix = '')
     {
-        $php = 'array(' . PHP_EOL;
+        $php = '[' . PHP_EOL;
         if (is_array($data) and array_diff_key($data, array_keys(array_keys($data)))) {
             foreach ($data as $key => $value) {
                 $php .= $prefix . '  ' . var_export($key, true) . ' => ';
@@ -71,6 +71,6 @@ class PhpStore extends FileStore
                 $php .= ',' . PHP_EOL;
             }
         }
-        return $php . $prefix . ')';
+        return $php . $prefix . ']';
     }
 }

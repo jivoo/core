@@ -7,8 +7,7 @@ namespace Jivoo\Store;
 
 /**
  * A session is a document that ensures durability of changes.
- * Unlike
- * {@see State}, changes are saved when they are made.
+ * Unlike {@see State}, changes are saved when they are made.
  */
 class Session extends Document
 {
