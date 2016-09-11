@@ -54,6 +54,20 @@ class PhpSessionStore implements Store
     public $httpOnly = true;
 
     /**
+     * Session cookie path.
+     *
+     * @var string
+     */
+    public $path = '/';
+
+    /**
+     * Session cookie domain.
+     *
+     * @var string
+     */
+    public $domain = '';
+    
+    /**
      * @var array
      */
     private $data = null;
@@ -66,8 +80,8 @@ class PhpSessionStore implements Store
         $params = session_get_cookie_params();
         session_set_cookie_params(
             $params['lifetime'],
-            $params['path'],
-            $params['domain'],
+            $this->path,
+            $this->domain,
             $this->secure,
             $this->httpOnly
         );
