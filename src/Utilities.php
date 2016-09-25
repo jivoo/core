@@ -225,6 +225,30 @@ class Utilities
     }
     
     /**
+     * Convert a callable to a string for logging/error purposes.
+     *
+     * @param callable $callable
+     * @return string
+     */
+    public static function callableToString($callable)
+    {
+        if (! isset($callable)) {
+            return '{null}';
+        } elseif (is_object($callable)) {
+            return get_class($callable);
+        } elseif (is_string($callable)) {
+            return $callable;
+        } elseif (is_array($callable)) {
+            if (is_object($callable[0])) {
+                return get_class($callable[0]) . '->' . $callable[1];
+            } else {
+                return $callable[0] . '::' . $callable[1];
+            }
+        }
+        return '{unknown}';
+    }
+    
+    /**
      * Get caller class and method.
      *
      * @return string Either returns the name of the class and method as a

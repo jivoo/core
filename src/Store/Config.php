@@ -33,6 +33,7 @@ class Config extends Document
      *
      * @param Store $store
      *            Optional store to load/save data from/to.
+     * @throws AccessException If file could not be read.
      */
     public function __construct(Store $store = null)
     {
@@ -45,6 +46,7 @@ class Config extends Document
 
     /**
      * Reload configuration document from store.
+     * @throws AccessException If file could not be read.
      */
     public function reload()
     {
@@ -61,7 +63,8 @@ class Config extends Document
         try {
             $this->store->open(false);
             $this->data = $this->store->read();
-        } catch (StoreException $e) {
+        } catch (AccessException $e) {
+            throw new AccessException('Could not read configration: ' . $e->getMessage(), null, $e);
         }
         $this->store->close();
     }

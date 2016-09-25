@@ -110,6 +110,9 @@ class Document implements \ArrayAccess, \IteratorAggregate
     {
         switch ($property) {
             case 'defaults':
+                if ($value instanceof Document) {
+                    $value = $value->toArray();
+                }
                 Assume::isArray($value);
                 $array = $value;
                 foreach ($array as $key => $value) {
@@ -117,6 +120,9 @@ class Document implements \ArrayAccess, \IteratorAggregate
                 }
                 return;
             case 'override':
+                if ($value instanceof Document) {
+                    $value = $value->toArray();
+                }
                 Assume::isArray($value);
                 $array = $value;
                 foreach ($array as $key => $value) {
