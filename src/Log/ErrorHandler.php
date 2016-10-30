@@ -205,8 +205,12 @@ class ErrorHandler implements LoggerAwareInterface
             case E_USER_WARNING:
             case E_USER_ERROR:
                 $backtrace = debug_backtrace();
-                $file = $backtrace[2]['file'];
-                $line = $backtrace[2]['line'];
+                if (isset($backtrace[2]['file'])) {
+                    $file = $backtrace[2]['file'];
+                }
+                if (isset($backtrace[2]['line'])) {
+                    $line = $backtrace[2]['line'];
+                }
                 break;
         }
         switch ($type) {
