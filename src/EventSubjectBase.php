@@ -10,6 +10,7 @@ namespace Jivoo;
  */
 abstract class EventSubjectBase implements EventSubject
 {
+    use EventSubjectTrait;
 
     /**
      * List of event names triggered by this subject.
@@ -19,88 +20,11 @@ abstract class EventSubjectBase implements EventSubject
     protected $events = array();
 
     /**
-     * Event manager.
-     *
-     * @var EventManager
-     */
-    protected $e;
-
-    /**
      * Construct event subject.
      * Should always be called when extending this class.
      */
     public function __construct()
     {
         $this->e = new EventManager($this);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attachEventHandler($name, callable $callback)
-    {
-        $this->e->attachHandler($name, $callback);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function on($name, callable $callback)
-    {
-        $this->e->attachHandler($name, $callback);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function one($name, callable $callback)
-    {
-        $this->e->attachHandler($name, $callback, true);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attachEventListener(EventListener $listener)
-    {
-        $this->e->attachListener($listener);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function detachEventHandler($name, callable $callback)
-    {
-        $this->e->detachHandler($name, $callback);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function detachEventListener(EventListener $listener)
-    {
-        $this->e->detachListener($listener);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEvents()
-    {
-        return $this->events;
-    }
-
-    /**
-     * Trigger an event on this object.
-     *
-     * @param string $name
-     *            Name of event.
-     * @param Event $event
-     *            Event object.
-     * @return bool False if event was stopped, true otherwise.
-     */
-    public function triggerEvent($name, Event $event = null)
-    {
-        return $this->e->trigger($name, $event);
     }
 }
