@@ -12,13 +12,6 @@ trait EventSubjectTrait
 {
 
     /**
-     * List of event names triggered by this subject.
-     *
-     * @var string[]
-     */
-    protected $events = array();
-
-    /**
      * Event manager.
      *
      * @var EventManager
@@ -106,16 +99,6 @@ trait EventSubjectTrait
     public function detachEventListener(EventListener $listener)
     {
         $this->e->detachListener($listener);
-    }
-
-    /**
-     * Get names of all events produced by object.
-     *
-     * @return string[] List of event names.
-     */
-    public function getEvents()
-    {
-        return $this->events;
     }
 
     /**

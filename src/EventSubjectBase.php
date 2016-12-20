@@ -11,6 +11,13 @@ namespace Jivoo;
 abstract class EventSubjectBase implements EventSubject
 {
     use EventSubjectTrait;
+    
+    /**
+     * List of event names triggered by this subject.
+     *
+     * @var string[]
+     */
+    protected $events = [];
 
     /**
      * Construct event subject.
@@ -19,5 +26,13 @@ abstract class EventSubjectBase implements EventSubject
     public function __construct()
     {
         $this->e = new EventManager($this);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getEvents()
+    {
+        return $this->events;
     }
 }
