@@ -13,13 +13,6 @@ abstract class EventSubjectBase implements EventSubject
     use EventSubjectTrait;
 
     /**
-     * List of event names triggered by this subject.
-     *
-     * @var string[]
-     */
-    protected $events = array();
-
-    /**
      * Construct event subject.
      * Should always be called when extending this class.
      */
